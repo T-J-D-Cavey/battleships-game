@@ -1,0 +1,214 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { Button } from "@/components/ui/button"
+import { GameGrid } from "@/components/game-grid"
+import { ShipSelector } from "@/components/ship-selector"
+import {
+  type Ship,
+  type Orientation,
+  INITIAL_SHIPS,
+  createEmptyGrid,
+  getShipCells,
+  isValidPlacement,
+  placeShipOnGrid,
+  removeShipFromGrid,
+} from "@/lib/game-types"
+import { ArrowLeft, Play } from "lucide-react"
+
+export default function PositionShipsPage() {
+  const router = useRouter()
+  const [ships, setShips] = useState<Ship[]>(INITIAL_SHIPS)
+  const [grid, setGrid] = useState(createEmptyGrid())
+  const [selectedShip, setSelectedShip] = useState<Ship | null>(null)
+  const [previewCells, setPreviewCells] = useState<{ row: number; col: number }[]>([])
+  const [rotationKey, setRotationKey] = useState(0)
+
+  const handleSelectShip = (ship: Ship) => {
+    setSelectedShip(ship)
+    setPreviewCells([])
+  }
+
+  const handleRotateShip = (ship: Ship) => {
+    const orientations: Orientation[] = ["horizontal", "vertical", "diagonal-down", "diagonal-up"]
+    const currentIndex = orientations.indexOf(ship.orientation)
+    const nextOrientation = orientations[(currentIndex + 1) % orientations.length]
+
+    // Update all ships to new orientation
+    const updatedShips = ships.map((s) => ({
+      ...s,
+      orientation: nextOrientation,
+    }))
+
+    setShips(updatedShips)
+    if (selectedShip) {
+      setSelectedShip({ ...selectedShip, orientation: nextOrientation })
+    }
+    setRotationKey((prev) => prev + 1)
+
+    // Rebuild grid with new orientations for placed ships
+    let newGrid = createEmptyGrid()
+    updatedShips.forEach((s) => {
+      if (s.placed) {
+        newGrid = placeShipOnGrid(s, newGrid)
+      }
+    })
+    setGrid(newGrid)
+  }
+
+  useEffect(() => {
+    setPreviewCells([])
+  }, [rotationKey])
+
+  const handleCellHover = (row: number, col: number) => {
+    if (!selectedShip) {
+      setPreviewCells([])
+      return
+    }
+
+    const previewShip = { ...selectedShip, startRow: row, startCol: col }
+    const cells = getShipCells(previewShip)
+
+    const valid = isValidPlacement(previewShip, grid, ships)
+
+    if (valid) {
+      setPreviewCells(cells)
+    } else {
+      setPreviewCells([])
+    }
+  }
+
+  const handleCellClick = (row: number, col: number) => {
+    if (!selectedShip) return
+
+    const updatedShip = {
+      ...selectedShip,
+      startRow: row,
+      startCol: col,
+      placed: true,
+    }
+
+    if (!isValidPlacement(updatedShip, grid, ships)) {
+      return
+    }
+
+    const newGrid = placeShipOnGrid(updatedShip, grid)
+    setGrid(newGrid)
+
+    const newShips = ships.map((s) => (s.id === selectedShip.id ? updatedShip : s))
+    setShips(newShips)
+
+    setSelectedShip(null)
+    setPreviewCells([])
+  }
+
+  const handleRemoveShip = (ship: Ship) => {
+    if (!ship.placed) return
+
+    const newGrid = removeShipFromGrid(ship.id, grid)
+    setGrid(newGrid)
+
+    const newShips = ships.map((s) => (s.id === ship.id ? { ...s, placed: false, startRow: -1, startCol: -1 } : s))
+    setShips(newShips)
+  }
+
+  const allShipsPlaced = ships.every((ship) => ship.placed)
+
+  const handleStartBattle = () => {
+    if (!allShipsPlaced) return
+
+    // Save game state to localStorage
+    localStorage.setItem("playerShips", JSON.stringify(ships))
+    localStorage.setItem("playerGrid", JSON.stringify(grid))
+
+    router.push("/battle")
+  }
+
+  return (
+    <div className="min-h-screen ocean-texture p-4 md:p-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="metallic-panel p-4 mb-6 rounded flex items-center justify-between">
+          <Button
+            variant="outline"
+            className="metallic-panel border-steel-light hover:border-radar-glow bg-transparent"
+            onClick={() => router.push("/")}
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            ABORT MISSION
+          </Button>
+
+          <h1 className="text-2xl md:text-3xl font-bold tracking-wider text-foreground">FLEET DEPLOYMENT</h1>
+
+          <Button
+            className="metallic-panel glow-border hover:brightness-125"
+            disabled={!allShipsPlaced}
+            onClick={handleStartBattle}
+          >
+            <Play className="w-4 h-4 mr-2" />
+            BEGIN BATTLE
+          </Button>
+        </div>
+
+        {/* Instructions */}
+        <div className="metallic-panel p-4 mb-6 rounded">
+          <p className="text-sm text-muted-foreground font-mono text-center">
+            {selectedShip
+              ? `DEPLOYING: ${selectedShip.type.toUpperCase()} - Click on the grid to place your ship`
+              : "SELECT A SHIP FROM THE ROSTER TO BEGIN DEPLOYMENT"}
+          </p>
+        </div>
+
+        {/* Main Content */}
+        <div className="grid lg:grid-cols-[1fr_auto] gap-6 items-start">
+          {/* Grid */}
+          <div className="flex justify-center">
+            <div
+              key={rotationKey}
+              onMouseLeave={() => setPreviewCells([])}
+              onMouseMove={(e) => {
+                const target = e.target as HTMLElement
+                const button = target.closest("button")
+                if (button) {
+                  const row = Number.parseInt(button.getAttribute("data-row") || "-1")
+                  const col = Number.parseInt(button.getAttribute("data-col") || "-1")
+                  if (row >= 0 && col >= 0) {
+                    handleCellHover(row, col)
+                  }
+                }
+              }}
+            >
+              <GameGrid grid={grid} onCellClick={handleCellClick} showShips={true} highlightCells={previewCells} />
+            </div>
+          </div>
+
+          {/* Ship Selector */}
+          <div className="lg:w-80">
+            <ShipSelector
+              ships={ships}
+              selectedShip={selectedShip}
+              onSelectShip={handleSelectShip}
+              onRotateShip={handleRotateShip}
+            />
+
+            {/* Reset Button */}
+            <Button
+              variant="outline"
+              className="w-full mt-4 metallic-panel border-steel-light hover:border-destructive bg-transparent"
+              onClick={() => {
+                setShips(INITIAL_SHIPS)
+                setGrid(createEmptyGrid())
+                setSelectedShip(null)
+                setPreviewCells([])
+                setRotationKey(0)
+              }}
+            >
+              RESET DEPLOYMENT
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
