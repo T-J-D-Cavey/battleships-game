@@ -93,23 +93,23 @@ export default function LandingPage() {
                     <h3 className="font-bold text-radar-glow mb-2">YOUR FLEET</h3>
                     <ul className="space-y-1 ml-4">
                       <li>• 1 Battleship (5 tiles)</li>
-                      <li>• 5 Destroyers (1 tile each)</li>
+                      <li>• 5 Destroyers (2 tiles each)</li>
                     </ul>
                   </div>
 
                   <div className="metallic-panel p-4 rounded">
                     <h3 className="font-bold text-radar-glow mb-2">DEPLOYMENT</h3>
                     <p>
-                      Position your ships on the grid. Ships can be placed horizontally, vertically, or diagonally. Drag
-                      and rotate to position.
+                      Position your ships on the grid. Ships can be placed horizontally, vertically, or diagonally.
+                      Destroyers automatically match the battleship's orientation.
                     </p>
                   </div>
 
                   <div className="metallic-panel p-4 rounded">
                     <h3 className="font-bold text-radar-glow mb-2">COMBAT</h3>
                     <p>
-                      Take turns targeting enemy coordinates. Red explosions mark hits, white ripples mark misses. Sink
-                      all enemy ships to achieve victory.
+                      Take turns targeting enemy coordinates. Destroyers are destroyed with a single hit. Destroy the
+                      enemy battleship or all their destroyers to win.
                     </p>
                   </div>
                 </div>

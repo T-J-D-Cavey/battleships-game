@@ -45,7 +45,7 @@ export const INITIAL_SHIPS: Ship[] = [
   {
     id: "destroyer-1",
     type: "destroyer",
-    size: 1,
+    size: 2,
     placed: false,
     startRow: -1,
     startCol: -1,
@@ -54,7 +54,7 @@ export const INITIAL_SHIPS: Ship[] = [
   {
     id: "destroyer-2",
     type: "destroyer",
-    size: 1,
+    size: 2,
     placed: false,
     startRow: -1,
     startCol: -1,
@@ -63,7 +63,7 @@ export const INITIAL_SHIPS: Ship[] = [
   {
     id: "destroyer-3",
     type: "destroyer",
-    size: 1,
+    size: 2,
     placed: false,
     startRow: -1,
     startCol: -1,
@@ -72,7 +72,7 @@ export const INITIAL_SHIPS: Ship[] = [
   {
     id: "destroyer-4",
     type: "destroyer",
-    size: 1,
+    size: 2,
     placed: false,
     startRow: -1,
     startCol: -1,
@@ -81,7 +81,7 @@ export const INITIAL_SHIPS: Ship[] = [
   {
     id: "destroyer-5",
     type: "destroyer",
-    size: 1,
+    size: 2,
     placed: false,
     startRow: -1,
     startCol: -1,

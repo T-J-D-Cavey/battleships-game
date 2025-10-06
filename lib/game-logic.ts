@@ -85,11 +85,21 @@ export function processAttack(
 
   if (cell.state === "ship") {
     // Hit!
-    grid[row][col].state = "hit"
-
-    // Check if ship is sunk
     const shipId = cell.shipId!
     const ship = ships.find((s) => s.id === shipId)!
+
+    if (ship.type === "destroyer") {
+      const shipCells = getShipCells(ship)
+      shipCells.forEach((c) => {
+        grid[c.row][c.col].state = "hit"
+      })
+      return { hit: true, sunk: true, shipId }
+    }
+
+    // For battleships, only mark the hit tile
+    grid[row][col].state = "hit"
+
+    // Check if battleship is sunk (all tiles hit)
     const shipCells = getShipCells(ship)
     const allHit = shipCells.every((c) => grid[c.row][c.col].state === "hit")
 
