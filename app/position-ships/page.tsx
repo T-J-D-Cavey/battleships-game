@@ -129,26 +129,36 @@ export default function PositionShipsPage() {
     <div className="min-h-screen ocean-texture p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="metallic-panel p-4 mb-6 rounded flex items-center justify-between">
-          <Button
-            variant="outline"
-            className="metallic-panel border-steel-light hover:border-radar-glow bg-transparent"
-            onClick={() => router.push("/")}
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            ABORT MISSION
-          </Button>
+        <div className="metallic-panel p-4 mb-6 rounded">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <Button
+              variant="outline"
+              className="metallic-panel border-steel-light hover:border-radar-glow bg-transparent w-full md:w-auto h-16 md:h-auto"
+              onClick={() => router.push("/")}
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              <span className="text-xs md:text-sm">
+                ABORT
+                <br className="md:hidden" /> MISSION
+              </span>
+            </Button>
 
-          <h1 className="text-2xl md:text-3xl font-bold tracking-wider text-foreground">FLEET DEPLOYMENT</h1>
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-wider text-foreground text-center">
+              FLEET DEPLOYMENT
+            </h1>
 
-          <Button
-            className="metallic-panel glow-border hover:brightness-125"
-            disabled={!allShipsPlaced}
-            onClick={handleStartBattle}
-          >
-            <Play className="w-4 h-4 mr-2" />
-            BEGIN BATTLE
-          </Button>
+            <Button
+              className="metallic-panel glow-border hover:brightness-125 w-full md:w-auto h-16 md:h-auto"
+              disabled={!allShipsPlaced}
+              onClick={handleStartBattle}
+            >
+              <Play className="w-4 h-4 mr-2" />
+              <span className="text-xs md:text-sm">
+                BEGIN
+                <br className="md:hidden" /> BATTLE
+              </span>
+            </Button>
+          </div>
         </div>
 
         {/* Instructions */}

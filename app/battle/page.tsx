@@ -151,19 +151,23 @@ export default function BattlePage() {
     <div className="min-h-screen ocean-texture p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="metallic-panel p-4 mb-6 rounded flex items-center justify-between">
-          <Button
-            variant="outline"
-            className="metallic-panel border-steel-light hover:border-radar-glow bg-transparent"
-            onClick={() => router.push("/")}
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            RETREAT
-          </Button>
+        <div className="metallic-panel p-4 mb-8 rounded">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <Button
+              variant="outline"
+              className="metallic-panel border-steel-light hover:border-radar-glow bg-transparent w-full md:w-auto"
+              onClick={() => router.push("/")}
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              RETREAT
+            </Button>
 
-          <h1 className="text-2xl md:text-3xl font-bold tracking-wider text-foreground">NAVAL COMBAT</h1>
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-wider text-foreground text-center flex-1">
+              NAVAL COMBAT
+            </h1>
 
-          <div className="w-32" />
+            <div className="w-full md:w-32 hidden md:block" />
+          </div>
         </div>
 
         {/* View Toggle */}

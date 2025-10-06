@@ -108,8 +108,9 @@ export default function LandingPage() {
                   <div className="metallic-panel p-4 rounded">
                     <h3 className="font-bold text-radar-glow mb-2">COMBAT</h3>
                     <p>
-                      Take turns targeting enemy coordinates. Destroyers are destroyed with a single hit. Destroy the
-                      enemy battleship or all their destroyers to win.
+                      Take turns targeting enemy coordinates. Destroyers are destroyed with a single hit. Destroying the
+                      enemy battleship results in victory. If all enemy destroyers are destroyed, they retreat and the
+                      winner is determined by who scored the most hits.
                     </p>
                   </div>
                 </div>
