@@ -150,57 +150,52 @@ export default function BattlePage() {
   return (
     <div className="min-h-screen ocean-texture p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="metallic-panel p-4 mb-8 rounded">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="max-w-[min(100%,1200px)] mx-auto">
+          <div className="metallic-panel p-4 mb-8 rounded">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <Button
+                variant="outline"
+                className="metallic-panel border-steel-light hover:border-radar-glow bg-transparent w-full md:w-auto"
+                onClick={() => router.push("/")}
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                RETREAT
+              </Button>
+
+              <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-wider text-foreground text-center flex-1 md:mr-32">
+                NAVAL COMBAT
+              </h1>
+            </div>
+          </div>
+
+          <div className="flex gap-4 mb-6">
             <Button
-              variant="outline"
-              className="metallic-panel border-steel-light hover:border-radar-glow bg-transparent w-full md:w-auto"
-              onClick={() => router.push("/")}
+              className={`flex-1 h-14 metallic-panel ${view === "attack" ? "glow-border" : "border-steel-light"}`}
+              variant={view === "attack" ? "default" : "outline"}
+              onClick={() => !isProcessing && setView("attack")}
+              disabled={isProcessing}
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              RETREAT
+              <Target className="w-5 h-5 mr-2" />
+              ENEMY SEA ZONE
             </Button>
+            <Button
+              className={`flex-1 h-14 metallic-panel ${view === "defense" ? "glow-border" : "border-steel-light"}`}
+              variant={view === "defense" ? "default" : "outline"}
+              onClick={() => !isProcessing && setView("defense")}
+              disabled={isProcessing}
+            >
+              <Shield className="w-5 h-5 mr-2" />
+              HOME SEA ZONE
+            </Button>
+          </div>
 
-            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-wider text-foreground text-center flex-1">
-              NAVAL COMBAT
-            </h1>
-
-            <div className="w-full md:w-32 hidden md:block" />
+          <div className="metallic-panel p-4 mb-16 rounded">
+            <p className="text-sm text-radar-glow font-mono text-center font-bold">{message}</p>
           </div>
         </div>
 
-        {/* View Toggle */}
-        <div className="flex gap-4 mb-6">
-          <Button
-            className={`flex-1 h-14 metallic-panel ${view === "attack" ? "glow-border" : "border-steel-light"}`}
-            variant={view === "attack" ? "default" : "outline"}
-            onClick={() => !isProcessing && setView("attack")}
-            disabled={isProcessing}
-          >
-            <Target className="w-5 h-5 mr-2" />
-            ENEMY SEA ZONE
-          </Button>
-          <Button
-            className={`flex-1 h-14 metallic-panel ${view === "defense" ? "glow-border" : "border-steel-light"}`}
-            variant={view === "defense" ? "default" : "outline"}
-            onClick={() => !isProcessing && setView("defense")}
-            disabled={isProcessing}
-          >
-            <Shield className="w-5 h-5 mr-2" />
-            HOME SEA ZONE
-          </Button>
-        </div>
-
-        {/* Status Message */}
-        <div className="metallic-panel p-4 mb-16 rounded">
-          <p className="text-sm text-radar-glow font-mono text-center font-bold">{message}</p>
-        </div>
-
-        {/* Main Content */}
-        <div className="grid lg:grid-cols-[1fr_auto] gap-6 items-start">
-          {/* Grid */}
-          <div className="flex justify-center">
+        <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center lg:justify-center max-w-[min(100%,1200px)] mx-auto">
+          <div className="flex justify-center w-full lg:w-auto">
             {view === "attack" ? (
               <div className="relative">
                 <div className="absolute -top-12 left-0 right-0 text-center mb-4">
@@ -224,12 +219,10 @@ export default function BattlePage() {
             )}
           </div>
 
-          {/* Stats Panel */}
-          <Card className="metallic-panel p-6 lg:w-80">
+          <Card className="metallic-panel p-6 w-full lg:w-80 lg:flex-shrink-0">
             <h2 className="text-xl font-bold tracking-wide mb-6 text-foreground">COMBAT STATUS</h2>
 
             <div className="space-y-6">
-              {/* Player Stats */}
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <Crosshair className="w-5 h-5 text-radar-glow" />
@@ -241,7 +234,6 @@ export default function BattlePage() {
                 </div>
               </div>
 
-              {/* Enemy Stats */}
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <Target className="w-5 h-5 text-destructive" />
@@ -253,7 +245,6 @@ export default function BattlePage() {
                 </div>
               </div>
 
-              {/* Confirm Attack Button */}
               {view === "attack" && selectedCell && (
                 <Button
                   className="w-full h-14 metallic-panel glow-border hover:brightness-125 font-bold"

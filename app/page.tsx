@@ -38,13 +38,13 @@ export default function LandingPage() {
               <h1 className="text-5xl md:text-7xl font-bold tracking-wider text-foreground">BATTLESHIPS</h1>
               <Anchor className="w-12 h-12 text-radar-glow" />
             </div>
-            <p className="text-muted-foreground text-lg tracking-wide font-mono">NAVAL WARFARE COMMAND SYSTEM</p>
+            <p className="text-muted-foreground text-lg tracking-wide font-mono">COMMANDER OF THE SEAS</p>
           </div>
 
           <div className="mb-8 rounded-lg overflow-hidden border-2 border-steel-light/30">
             <img
-              src="/battleship-bridge-view.jpg"
-              alt="Battleship Command View"
+              src="/naval-battle-scene.jpg"
+              alt="Naval Battle Scene"
               className="w-full h-48 object-cover opacity-80"
             />
           </div>

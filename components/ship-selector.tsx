@@ -3,8 +3,9 @@
 import type { Ship, Orientation } from "@/lib/game-types"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { RotateCw, Anchor } from "lucide-react"
+import { RotateCw, Anchor, ArrowUpRight } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { ShipVisual } from "@/components/ship-visuals"
 
 interface ShipSelectorProps {
   ships: Ship[]
@@ -21,95 +22,43 @@ export function ShipSelector({ ships, selectedShip, onSelectShip, onRotateShip }
       case "vertical":
         return "VERTICAL"
       case "diagonal-down":
-        return "DIAGONAL ↘"
+        // 45deg rotation points down-right
+        return (
+          <span className="flex items-center gap-1">
+            DIAGONAL <ArrowUpRight className="w-3 h-3 text-radar-glow -scale-x-100" />
+          </span>
+        )
       case "diagonal-up":
-        return "DIAGONAL ↗"
+        // -45deg rotation points up-right
+        return (
+          <span className="flex items-center gap-1">
+            DIAGONAL <ArrowUpRight className="w-3 h-3 text-radar-glow" />
+          </span>
+        )
     }
   }
 
-  const renderShipVisual = (ship: Ship) => {
-    const tiles = Array.from({ length: ship.size })
-
-    if (ship.orientation === "horizontal") {
-      return (
-        <div className="flex gap-1">
-          {tiles.map((_, i) => (
-            <div
-              key={i}
-              className={cn(
-                "w-6 h-6 rounded-sm border border-steel-light/40 relative",
-                ship.placed ? "bg-steel-dark/40" : "bg-gradient-to-br from-steel-light/80 to-steel-dark/60",
-              )}
-            >
-              <div className="absolute top-0.5 left-0.5 w-1 h-1 rounded-full bg-steel-dark/60" />
-              <div className="absolute top-0.5 right-0.5 w-1 h-1 rounded-full bg-steel-dark/60" />
-              <div className="absolute bottom-0.5 left-0.5 w-1 h-1 rounded-full bg-steel-dark/60" />
-              <div className="absolute bottom-0.5 right-0.5 w-1 h-1 rounded-full bg-steel-dark/60" />
-            </div>
-          ))}
-        </div>
-      )
-    } else if (ship.orientation === "vertical") {
-      return (
-        <div className="flex flex-col gap-1">
-          {tiles.map((_, i) => (
-            <div
-              key={i}
-              className={cn(
-                "w-6 h-6 rounded-sm border border-steel-light/40 relative",
-                ship.placed ? "bg-steel-dark/40" : "bg-gradient-to-br from-steel-light/80 to-steel-dark/60",
-              )}
-            >
-              <div className="absolute top-0.5 left-0.5 w-1 h-1 rounded-full bg-steel-dark/60" />
-              <div className="absolute top-0.5 right-0.5 w-1 h-1 rounded-full bg-steel-dark/60" />
-              <div className="absolute bottom-0.5 left-0.5 w-1 h-1 rounded-full bg-steel-dark/60" />
-              <div className="absolute bottom-0.5 right-0.5 w-1 h-1 rounded-full bg-steel-dark/60" />
-            </div>
-          ))}
-        </div>
-      )
-    } else if (ship.orientation === "diagonal-down") {
-      return (
-        <div className="relative h-24">
-          {tiles.map((_, i) => (
-            <div
-              key={i}
-              className={cn(
-                "w-6 h-6 rounded-sm border border-steel-light/40 absolute",
-                ship.placed ? "bg-steel-dark/40" : "bg-gradient-to-br from-steel-light/80 to-steel-dark/60",
-              )}
-              style={{ left: `${i * 8}px`, top: `${i * 8}px` }}
-            >
-              <div className="absolute top-0.5 left-0.5 w-1 h-1 rounded-full bg-steel-dark/60" />
-              <div className="absolute top-0.5 right-0.5 w-1 h-1 rounded-full bg-steel-dark/60" />
-              <div className="absolute bottom-0.5 left-0.5 w-1 h-1 rounded-full bg-steel-dark/60" />
-              <div className="absolute bottom-0.5 right-0.5 w-1 h-1 rounded-full bg-steel-dark/60" />
-            </div>
-          ))}
-        </div>
-      )
-    } else {
-      // diagonal-up
-      return (
-        <div className="relative h-24">
-          {tiles.map((_, i) => (
-            <div
-              key={i}
-              className={cn(
-                "w-6 h-6 rounded-sm border border-steel-light/40 absolute",
-                ship.placed ? "bg-steel-dark/40" : "bg-gradient-to-br from-steel-light/80 to-steel-dark/60",
-              )}
-              style={{ left: `${i * 8}px`, bottom: `${i * 8}px` }}
-            >
-              <div className="absolute top-0.5 left-0.5 w-1 h-1 rounded-full bg-steel-dark/60" />
-              <div className="absolute top-0.5 right-0.5 w-1 h-1 rounded-full bg-steel-dark/60" />
-              <div className="absolute bottom-0.5 left-0.5 w-1 h-1 rounded-full bg-steel-dark/60" />
-              <div className="absolute bottom-0.5 right-0.5 w-1 h-1 rounded-full bg-steel-dark/60" />
-            </div>
-          ))}
-        </div>
-      )
+  const getShipVisualHeight = (ship: Ship) => {
+    if (ship.type === "destroyer") {
+      if (ship.orientation === "vertical") return "120px"
+      if (ship.orientation === "diagonal-down" || ship.orientation === "diagonal-up") return "100px"
+      return "60px"
     }
+    // Battleship
+    if (ship.orientation === "vertical") return "280px"
+    if (ship.orientation === "diagonal-down" || ship.orientation === "diagonal-up") return "240px"
+    return "80px"
+  }
+
+  const renderShipVisual = (ship: Ship) => {
+    return (
+      <div
+        className="flex items-center justify-center overflow-hidden"
+        style={{ minHeight: getShipVisualHeight(ship), width: "100%" }}
+      >
+        <ShipVisual type={ship.type} orientation={ship.orientation} size={24} />
+      </div>
+    )
   }
 
   return (

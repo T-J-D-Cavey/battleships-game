@@ -31,11 +31,10 @@ export default function PositionShipsPage() {
   }
 
   const handleRotateShip = (ship: Ship) => {
-    const orientations: Orientation[] = ["horizontal", "vertical", "diagonal-down", "diagonal-up"]
+    const orientations: Orientation[] = ["horizontal", "diagonal-down", "vertical", "diagonal-up"]
     const currentIndex = orientations.indexOf(ship.orientation)
     const nextOrientation = orientations[(currentIndex + 1) % orientations.length]
 
-    // Update all ships to new orientation
     const updatedShips = ships.map((s) => ({
       ...s,
       orientation: nextOrientation,
@@ -47,7 +46,6 @@ export default function PositionShipsPage() {
     }
     setRotationKey((prev) => prev + 1)
 
-    // Rebuild grid with new orientations for placed ships
     let newGrid = createEmptyGrid()
     updatedShips.forEach((s) => {
       if (s.placed) {
@@ -99,7 +97,8 @@ export default function PositionShipsPage() {
     const newShips = ships.map((s) => (s.id === selectedShip.id ? updatedShip : s))
     setShips(newShips)
 
-    setSelectedShip(null)
+    const nextUndeployedShip = newShips.find((s) => !s.placed)
+    setSelectedShip(nextUndeployedShip || null)
     setPreviewCells([])
   }
 
@@ -118,7 +117,6 @@ export default function PositionShipsPage() {
   const handleStartBattle = () => {
     if (!allShipsPlaced) return
 
-    // Save game state to localStorage
     localStorage.setItem("playerShips", JSON.stringify(ships))
     localStorage.setItem("playerGrid", JSON.stringify(grid))
 
@@ -128,52 +126,52 @@ export default function PositionShipsPage() {
   return (
     <div className="min-h-screen ocean-texture p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="metallic-panel p-4 mb-6 rounded">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <Button
-              variant="outline"
-              className="metallic-panel border-steel-light hover:border-radar-glow bg-transparent w-full md:w-auto h-16 md:h-auto"
-              onClick={() => router.push("/")}
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              <span className="text-xs md:text-sm">
-                ABORT
-                <br className="md:hidden" /> MISSION
-              </span>
-            </Button>
+        <div className="max-w-[min(100%,1200px)] mx-auto">
+          <div className="metallic-panel p-4 mb-6 rounded">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <Button
+                variant="outline"
+                className="metallic-panel border-steel-light hover:border-radar-glow bg-transparent w-full md:w-auto h-16 md:h-auto"
+                onClick={() => router.push("/")}
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                <span className="text-xs md:text-sm">
+                  ABORT
+                  <br className="md:hidden" /> MISSION
+                </span>
+              </Button>
 
-            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-wider text-foreground text-center">
-              FLEET DEPLOYMENT
-            </h1>
+              <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-wider text-foreground text-center">
+                FLEET DEPLOYMENT
+              </h1>
 
-            <Button
-              className="metallic-panel glow-border hover:brightness-125 w-full md:w-auto h-16 md:h-auto"
-              disabled={!allShipsPlaced}
-              onClick={handleStartBattle}
-            >
-              <Play className="w-4 h-4 mr-2" />
-              <span className="text-xs md:text-sm">
-                BEGIN
-                <br className="md:hidden" /> BATTLE
-              </span>
-            </Button>
+              <Button
+                className="metallic-panel glow-border hover:brightness-125 w-full md:w-auto h-16 md:h-auto"
+                disabled={!allShipsPlaced}
+                onClick={handleStartBattle}
+              >
+                <Play className="w-4 h-4 mr-2" />
+                <span className="text-xs md:text-sm">
+                  BEGIN
+                  <br className="md:hidden" /> BATTLE
+                </span>
+              </Button>
+            </div>
+          </div>
+
+          <div className="metallic-panel p-4 mb-6 rounded">
+            <p className="text-sm text-muted-foreground font-mono text-center">
+              {selectedShip
+                ? `DEPLOYING: ${selectedShip.type.toUpperCase()} - Click on the grid to place your ship`
+                : "SELECT A SHIP FROM THE ROSTER TO BEGIN DEPLOYMENT"}
+            </p>
           </div>
         </div>
 
-        {/* Instructions */}
-        <div className="metallic-panel p-4 mb-6 rounded">
-          <p className="text-sm text-muted-foreground font-mono text-center">
-            {selectedShip
-              ? `DEPLOYING: ${selectedShip.type.toUpperCase()} - Click on the grid to place your ship`
-              : "SELECT A SHIP FROM THE ROSTER TO BEGIN DEPLOYMENT"}
-          </p>
-        </div>
-
         {/* Main Content */}
-        <div className="grid lg:grid-cols-[1fr_auto] gap-6 items-start">
+        <div className="flex flex-col lg:flex-row gap-6 items-start lg:justify-center max-w-[min(100%,1200px)] mx-auto">
           {/* Grid */}
-          <div className="flex justify-center">
+          <div className="flex justify-center w-full lg:w-auto">
             <div
               key={rotationKey}
               onMouseLeave={() => setPreviewCells([])}
@@ -194,7 +192,7 @@ export default function PositionShipsPage() {
           </div>
 
           {/* Ship Selector */}
-          <div className="lg:w-80">
+          <div className="w-full lg:w-80 lg:flex-shrink-0">
             <ShipSelector
               ships={ships}
               selectedShip={selectedShip}
@@ -202,7 +200,6 @@ export default function PositionShipsPage() {
               onRotateShip={handleRotateShip}
             />
 
-            {/* Reset Button */}
             <Button
               variant="outline"
               className="w-full mt-4 metallic-panel border-steel-light hover:border-destructive bg-transparent"
