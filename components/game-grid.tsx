@@ -73,18 +73,8 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
 
   return (
     <div className={cn("inline-block metallic-panel p-4 rounded", className)}>
-      <div className="flex mb-2">
-        <div className="w-8" />
-        {Array.from({ length: 10 }, (_, i) => (
-          <div key={i} className="w-10 h-8 flex items-center justify-center text-xs font-mono text-radar-glow">
-            {i}
-          </div>
-        ))}
-      </div>
-
       {grid.map((row, rowIndex) => (
         <div key={rowIndex} className="flex">
-          <div className="w-8 h-10 flex items-center justify-center text-xs font-mono text-radar-glow">{rowIndex}</div>
           {row.map((cell, colIndex) => {
             const shipType = getShipType(cell)
             const shouldRenderShip = showShips && cell.state === "ship" && isShipStart(rowIndex, colIndex)
