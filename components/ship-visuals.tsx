@@ -49,21 +49,21 @@ export function ShipVisual({ type, orientation, size = 40, className }: ShipVisu
         const diagonalSize = size * Math.sqrt(2) * 2
         return (
           <svg width={diagonalSize} height={diagonalSize} viewBox="0 0 113 113" className={className}>
-            <g transform="rotate(45 56.5 56.5)">
+            <g transform="rotate(45 28.25 28.25) translate(-28.25 -28.25)">
               <path
-                d="M 16.5 56.5 L 31.5 41.5 L 71.5 41.5 L 86.5 56.5 L 71.5 71.5 L 31.5 71.5 Z"
+                d="M 16.5 28.25 L 31.5 13.25 L 71.5 13.25 L 86.5 28.25 L 71.5 43.25 L 31.5 43.25 Z"
                 fill="#6b7280"
                 stroke="#1f2937"
                 strokeWidth="2"
               />
               <path
-                d="M 21.5 56.5 L 33.5 46.5 L 69.5 46.5 L 81.5 56.5 L 69.5 66.5 L 33.5 66.5 Z"
+                d="M 21.5 28.25 L 33.5 18.25 L 69.5 18.25 L 81.5 28.25 L 69.5 38.25 L 33.5 38.25 Z"
                 fill="#4b5563"
                 stroke="#374151"
                 strokeWidth="1"
               />
-              <ellipse cx="51.5" cy="56.5" rx="8" ry="6" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
-              <rect x="49.5" y="48.5" width="4" height="6" fill="#1f2937" rx="1" />
+              <ellipse cx="51.5" cy="28.25" rx="8" ry="6" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
+              <rect x="49.5" y="20.25" width="4" height="6" fill="#1f2937" rx="1" />
             </g>
           </svg>
         )
@@ -72,21 +72,21 @@ export function ShipVisual({ type, orientation, size = 40, className }: ShipVisu
         const diagonalSize = size * Math.sqrt(2) * 2
         return (
           <svg width={diagonalSize} height={diagonalSize} viewBox="0 0 113 113" className={className}>
-            <g transform="rotate(-45 56.5 56.5)">
+            <g transform="rotate(-45 28.25 84.75) translate(-28.25 -84.75)">
               <path
-                d="M 16.5 56.5 L 31.5 41.5 L 71.5 41.5 L 86.5 56.5 L 71.5 71.5 L 31.5 71.5 Z"
+                d="M 16.5 84.75 L 31.5 69.75 L 71.5 69.75 L 86.5 84.75 L 71.5 99.75 L 31.5 99.75 Z"
                 fill="#6b7280"
                 stroke="#1f2937"
                 strokeWidth="2"
               />
               <path
-                d="M 21.5 56.5 L 33.5 46.5 L 69.5 46.5 L 81.5 56.5 L 69.5 66.5 L 33.5 66.5 Z"
+                d="M 21.5 84.75 L 33.5 74.75 L 69.5 74.75 L 81.5 84.75 L 69.5 94.75 L 33.5 94.75 Z"
                 fill="#4b5563"
                 stroke="#374151"
                 strokeWidth="1"
               />
-              <ellipse cx="51.5" cy="56.5" rx="8" ry="6" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
-              <rect x="49.5" y="48.5" width="4" height="6" fill="#1f2937" rx="1" />
+              <ellipse cx="51.5" cy="84.75" rx="8" ry="6" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
+              <rect x="49.5" y="76.75" width="4" height="6" fill="#1f2937" rx="1" />
             </g>
           </svg>
         )
@@ -153,24 +153,24 @@ export function ShipVisual({ type, orientation, size = 40, className }: ShipVisu
         const diagonalSize = size * Math.sqrt(2) * 5
         return (
           <svg width={diagonalSize} height={diagonalSize} viewBox="0 0 283 283" className={className}>
-            <g transform="rotate(45 141.5 141.5)">
+            <g transform="rotate(45 70.75 70.75) translate(-70.75 -70.75)">
               <path
-                d="M 41.5 141.5 L 61.5 121.5 L 221.5 121.5 L 241.5 141.5 L 221.5 161.5 L 61.5 161.5 Z"
+                d="M 41.5 70.75 L 61.5 50.75 L 221.5 50.75 L 241.5 70.75 L 221.5 90.75 L 61.5 90.75 Z"
                 fill="#6b7280"
                 stroke="#1f2937"
                 strokeWidth="2"
               />
               <path
-                d="M 46.5 141.5 L 63.5 126.5 L 219.5 126.5 L 236.5 141.5 L 219.5 156.5 L 63.5 156.5 Z"
+                d="M 46.5 70.75 L 63.5 55.75 L 219.5 55.75 L 236.5 70.75 L 219.5 85.75 L 63.5 85.75 Z"
                 fill="#4b5563"
                 stroke="#374151"
                 strokeWidth="1"
               />
-              <ellipse cx="86.5" cy="141.5" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
-              <ellipse cx="116.5" cy="141.5" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
+              <ellipse cx="86.5" cy="70.75" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
+              <ellipse cx="116.5" cy="70.75" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
               <rect
                 x="131.5"
-                y="136.5"
+                y="65.75"
                 width="10"
                 height="10"
                 fill="#374151"
@@ -178,8 +178,8 @@ export function ShipVisual({ type, orientation, size = 40, className }: ShipVisu
                 strokeWidth="1.5"
                 rx="1"
               />
-              <ellipse cx="156.5" cy="141.5" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
-              <ellipse cx="186.5" cy="141.5" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
+              <ellipse cx="156.5" cy="70.75" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
+              <ellipse cx="186.5" cy="70.75" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
             </g>
           </svg>
         )
@@ -188,24 +188,24 @@ export function ShipVisual({ type, orientation, size = 40, className }: ShipVisu
         const diagonalSize = size * Math.sqrt(2) * 5
         return (
           <svg width={diagonalSize} height={diagonalSize} viewBox="0 0 283 283" className={className}>
-            <g transform="rotate(-45 141.5 141.5)">
+            <g transform="rotate(-45 70.75 212.25) translate(-70.75 -212.25)">
               <path
-                d="M 41.5 141.5 L 61.5 121.5 L 221.5 121.5 L 241.5 141.5 L 221.5 161.5 L 61.5 161.5 Z"
+                d="M 41.5 212.25 L 61.5 192.25 L 221.5 192.25 L 241.5 212.25 L 221.5 232.25 L 61.5 232.25 Z"
                 fill="#6b7280"
                 stroke="#1f2937"
                 strokeWidth="2"
               />
               <path
-                d="M 46.5 141.5 L 63.5 126.5 L 219.5 126.5 L 236.5 141.5 L 219.5 156.5 L 63.5 156.5 Z"
+                d="M 46.5 212.25 L 63.5 197.25 L 219.5 197.25 L 236.5 212.25 L 219.5 227.25 L 63.5 227.25 Z"
                 fill="#4b5563"
                 stroke="#374151"
                 strokeWidth="1"
               />
-              <ellipse cx="86.5" cy="141.5" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
-              <ellipse cx="116.5" cy="141.5" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
+              <ellipse cx="86.5" cy="212.25" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
+              <ellipse cx="116.5" cy="212.25" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
               <rect
                 x="131.5"
-                y="136.5"
+                y="207.25"
                 width="10"
                 height="10"
                 fill="#374151"
@@ -213,8 +213,8 @@ export function ShipVisual({ type, orientation, size = 40, className }: ShipVisu
                 strokeWidth="1.5"
                 rx="1"
               />
-              <ellipse cx="156.5" cy="141.5" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
-              <ellipse cx="186.5" cy="141.5" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
+              <ellipse cx="156.5" cy="212.25" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
+              <ellipse cx="186.5" cy="212.25" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
             </g>
           </svg>
         )

@@ -71,6 +71,21 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
     return shipId === "battleship" ? 5 : 2
   }
 
+  const getShipPositionClasses = (orientation: string) => {
+    switch (orientation) {
+      case "horizontal":
+        return "justify-start items-center"
+      case "vertical":
+        return "justify-center items-start"
+      case "diagonal-down":
+        return "justify-start items-start"
+      case "diagonal-up":
+        return "justify-start items-end"
+      default:
+        return "justify-start items-center"
+    }
+  }
+
   return (
     <div className={cn("inline-block metallic-panel p-4 rounded", className)}>
       {grid.map((row, rowIndex) => (
@@ -105,7 +120,10 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
               >
                 {shouldRenderShip && shipType && (
                   <div
-                    className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
+                    className={cn(
+                      "absolute inset-0 flex pointer-events-none z-10",
+                      getShipPositionClasses(shipOrientation),
+                    )}
                     style={{ overflow: "visible" }}
                   >
                     <ShipVisual type={shipType} orientation={shipOrientation} size={40} />
