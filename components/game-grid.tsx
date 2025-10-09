@@ -86,6 +86,23 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
     }
   }
 
+  const getShipTransform = (orientation: string, shipType: "battleship" | "destroyer") => {
+    if (orientation === "diagonal-down") {
+      // Offset to align first tile with starting cell
+      const shipLength = shipType === "battleship" ? 5 : 2
+      const diagonalLength = 40 * Math.sqrt(2) * shipLength
+      const offset = (diagonalLength - 40 * Math.sqrt(2)) / 2
+      return `translate(-${offset}px, -${offset}px)`
+    } else if (orientation === "diagonal-up") {
+      // Offset to align first tile with starting cell
+      const shipLength = shipType === "battleship" ? 5 : 2
+      const diagonalLength = 40 * Math.sqrt(2) * shipLength
+      const offset = (diagonalLength - 40 * Math.sqrt(2)) / 2
+      return `translate(-${offset}px, ${offset}px)`
+    }
+    return undefined
+  }
+
   return (
     <div className={cn("inline-block metallic-panel p-4 rounded", className)}>
       {grid.map((row, rowIndex) => (
@@ -119,14 +136,8 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
                 )}
               >
                 {shouldRenderShip && shipType && (
-                  <div
-                    className={cn(
-                      "absolute inset-0 flex pointer-events-none z-10",
-                      getShipPositionClasses(shipOrientation),
-                    )}
-                    style={{ overflow: "visible" }}
-                  >
-                    <ShipVisual type={shipType} orientation={shipOrientation} size={40} />
+                  <div className="absolute top-0 left-0 pointer-events-none z-10" style={{ overflow: "visible" }}>
+                    <ShipVisual type={shipType} orientation={shipOrientation} size={40} context="grid" />
                   </div>
                 )}
 

@@ -14,6 +14,7 @@ import {
   isValidPlacement,
   placeShipOnGrid,
   removeShipFromGrid,
+  adjustPlacementToFit,
 } from "@/lib/game-types"
 import { ArrowLeft, Play } from "lucide-react"
 
@@ -65,9 +66,11 @@ export default function PositionShipsPage() {
       return
     }
 
-    const previewShip = { ...selectedShip, startRow: row, startCol: col }
+    const adjusted = adjustPlacementToFit(selectedShip, row, col)
+    const previewShip = { ...selectedShip, startRow: adjusted.row, startCol: adjusted.col }
     const cells = getShipCells(previewShip)
 
+    // Check if placement is valid (not overlapping with other ships)
     const valid = isValidPlacement(previewShip, grid, ships)
 
     if (valid) {
@@ -80,10 +83,11 @@ export default function PositionShipsPage() {
   const handleCellClick = (row: number, col: number) => {
     if (!selectedShip) return
 
+    const adjusted = adjustPlacementToFit(selectedShip, row, col)
     const updatedShip = {
       ...selectedShip,
-      startRow: row,
-      startCol: col,
+      startRow: adjusted.row,
+      startCol: adjusted.col,
       placed: true,
     }
 

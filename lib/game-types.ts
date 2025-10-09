@@ -170,3 +170,70 @@ export function removeShipFromGrid(shipId: string, grid: Cell[][]): Cell[][] {
     row.map((cell) => (cell.shipId === shipId ? { ...cell, state: "empty", shipId: undefined } : cell)),
   )
 }
+
+export function adjustPlacementToFit(ship: Ship, row: number, col: number): { row: number; col: number } {
+  let adjustedRow = row
+  let adjustedCol = col
+
+  // Calculate the cells the ship would occupy
+  const cells: { row: number; col: number }[] = []
+  for (let i = 0; i < ship.size; i++) {
+    let cellRow = row
+    let cellCol = col
+
+    switch (ship.orientation) {
+      case "horizontal":
+        cellCol += i
+        break
+      case "vertical":
+        cellRow += i
+        break
+      case "diagonal-down":
+        cellRow += i
+        cellCol += i
+        break
+      case "diagonal-up":
+        cellRow -= i
+        cellCol += i
+        break
+    }
+
+    cells.push({ row: cellRow, col: cellCol })
+  }
+
+  // Check if any cells are out of bounds and adjust
+  switch (ship.orientation) {
+    case "horizontal":
+      // If ship extends past right edge, shift left
+      if (col + ship.size > GRID_SIZE) {
+        adjustedCol = GRID_SIZE - ship.size
+      }
+      break
+    case "vertical":
+      // If ship extends past bottom edge, shift up
+      if (row + ship.size > GRID_SIZE) {
+        adjustedRow = GRID_SIZE - ship.size
+      }
+      break
+    case "diagonal-down":
+      // If ship extends past right or bottom edge, shift up-left
+      if (col + ship.size > GRID_SIZE) {
+        adjustedCol = GRID_SIZE - ship.size
+      }
+      if (row + ship.size > GRID_SIZE) {
+        adjustedRow = GRID_SIZE - ship.size
+      }
+      break
+    case "diagonal-up":
+      // If ship extends past top or right edge, shift down or left
+      if (col + ship.size > GRID_SIZE) {
+        adjustedCol = GRID_SIZE - ship.size
+      }
+      if (row - ship.size + 1 < 0) {
+        adjustedRow = ship.size - 1
+      }
+      break
+  }
+
+  return { row: adjustedRow, col: adjustedCol }
+}

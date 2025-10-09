@@ -189,8 +189,20 @@ export default function BattlePage() {
             </Button>
           </div>
 
-          <div className="metallic-panel p-4 mb-16 rounded">
-            <p className="text-sm text-radar-glow font-mono text-center font-bold">{message}</p>
+          <div className="metallic-panel p-4 mb-6 rounded">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <p className="text-sm text-radar-glow font-mono text-center font-bold flex-1">{message}</p>
+              {view === "attack" && selectedCell && (
+                <Button
+                  className="w-full sm:w-auto metallic-panel glow-border hover:brightness-125 font-bold"
+                  onClick={handleConfirmAttack}
+                  disabled={isProcessing}
+                >
+                  <Target className="w-5 h-5 mr-2" />
+                  FIRE WEAPONS
+                </Button>
+              )}
+            </div>
           </div>
         </div>
 
@@ -244,17 +256,6 @@ export default function BattlePage() {
                   <div className="text-xs text-muted-foreground mt-1">HITS SUSTAINED</div>
                 </div>
               </div>
-
-              {view === "attack" && selectedCell && (
-                <Button
-                  className="w-full h-14 metallic-panel glow-border hover:brightness-125 font-bold"
-                  onClick={handleConfirmAttack}
-                  disabled={isProcessing}
-                >
-                  <Target className="w-5 h-5 mr-2" />
-                  FIRE WEAPONS
-                </Button>
-              )}
             </div>
           </Card>
         </div>

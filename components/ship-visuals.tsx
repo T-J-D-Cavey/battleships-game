@@ -5,9 +5,10 @@ interface ShipVisualProps {
   orientation: Orientation
   size?: number
   className?: string
+  context?: "roster" | "grid"
 }
 
-export function ShipVisual({ type, orientation, size = 40, className }: ShipVisualProps) {
+export function ShipVisual({ type, orientation, size = 40, className, context = "roster" }: ShipVisualProps) {
   const shipLength = type === "battleship" ? 5 : 2
 
   const renderShip = () => {
@@ -46,48 +47,65 @@ export function ShipVisual({ type, orientation, size = 40, className }: ShipVisu
           </svg>
         )
       } else if (orientation === "diagonal-down") {
-        const diagonalSize = size * Math.sqrt(2) * 2
+        const gridSize = size * 2
         return (
-          <svg width={diagonalSize} height={diagonalSize} viewBox="0 0 113 113" className={className}>
-            <g transform="rotate(45 28.25 28.25) translate(-28.25 -28.25)">
-              <path
-                d="M 16.5 28.25 L 31.5 13.25 L 71.5 13.25 L 86.5 28.25 L 71.5 43.25 L 31.5 43.25 Z"
-                fill="#6b7280"
-                stroke="#1f2937"
-                strokeWidth="2"
-              />
-              <path
-                d="M 21.5 28.25 L 33.5 18.25 L 69.5 18.25 L 81.5 28.25 L 69.5 38.25 L 33.5 38.25 Z"
-                fill="#4b5563"
-                stroke="#374151"
-                strokeWidth="1"
-              />
-              <ellipse cx="51.5" cy="28.25" rx="8" ry="6" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
-              <rect x="49.5" y="20.25" width="4" height="6" fill="#1f2937" rx="1" />
-            </g>
+          <svg width={gridSize} height={gridSize} viewBox="0 0 80 80" className={className}>
+            <path
+              d="M 15 10 L 25 5 L 70 50 L 75 60 L 70 70 L 60 75 L 15 30 L 10 20 Z"
+              fill="#6b7280"
+              stroke="#1f2937"
+              strokeWidth="2"
+            />
+            <path
+              d="M 18 14 L 25 10 L 66 51 L 70 58 L 66 66 L 58 70 L 17 29 L 14 22 Z"
+              fill="#4b5563"
+              stroke="#374151"
+              strokeWidth="1"
+            />
+            <ellipse
+              cx="42"
+              cy="42"
+              rx="7"
+              ry="5"
+              fill="#374151"
+              stroke="#1f2937"
+              strokeWidth="1.5"
+              transform="rotate(45 42 42)"
+            />
+            <rect x="40" y="35" width="4" height="5" fill="#1f2937" rx="1" transform="rotate(45 42 42)" />
+            <circle cx="28" cy="28" r="2" fill="#1f2937" opacity="0.6" />
+            <circle cx="56" cy="56" r="2" fill="#1f2937" opacity="0.6" />
           </svg>
         )
       } else {
-        // diagonal-up
-        const diagonalSize = size * Math.sqrt(2) * 2
+        const gridSize = size * 2
         return (
-          <svg width={diagonalSize} height={diagonalSize} viewBox="0 0 113 113" className={className}>
-            <g transform="rotate(-45 28.25 84.75) translate(-28.25 -84.75)">
-              <path
-                d="M 16.5 84.75 L 31.5 69.75 L 71.5 69.75 L 86.5 84.75 L 71.5 99.75 L 31.5 99.75 Z"
-                fill="#6b7280"
-                stroke="#1f2937"
-                strokeWidth="2"
-              />
-              <path
-                d="M 21.5 84.75 L 33.5 74.75 L 69.5 74.75 L 81.5 84.75 L 69.5 94.75 L 33.5 94.75 Z"
-                fill="#4b5563"
-                stroke="#374151"
-                strokeWidth="1"
-              />
-              <ellipse cx="51.5" cy="84.75" rx="8" ry="6" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
-              <rect x="49.5" y="76.75" width="4" height="6" fill="#1f2937" rx="1" />
-            </g>
+          <svg width={gridSize} height={gridSize} viewBox="0 0 80 80" className={className}>
+            <path
+              d="M 15 70 L 25 75 L 70 30 L 75 20 L 70 10 L 60 5 L 15 50 L 10 60 Z"
+              fill="#6b7280"
+              stroke="#1f2937"
+              strokeWidth="2"
+            />
+            <path
+              d="M 18 66 L 25 70 L 66 29 L 70 22 L 66 14 L 58 10 L 17 51 L 14 58 Z"
+              fill="#4b5563"
+              stroke="#374151"
+              strokeWidth="1"
+            />
+            <ellipse
+              cx="42"
+              cy="42"
+              rx="7"
+              ry="5"
+              fill="#374151"
+              stroke="#1f2937"
+              strokeWidth="1.5"
+              transform="rotate(-45 42 42)"
+            />
+            <rect x="40" y="35" width="4" height="5" fill="#1f2937" rx="1" transform="rotate(-45 42 42)" />
+            <circle cx="28" cy="56" r="2" fill="#1f2937" opacity="0.6" />
+            <circle cx="56" cy="28" r="2" fill="#1f2937" opacity="0.6" />
           </svg>
         )
       }
@@ -150,72 +168,153 @@ export function ShipVisual({ type, orientation, size = 40, className }: ShipVisu
           </svg>
         )
       } else if (orientation === "diagonal-down") {
-        const diagonalSize = size * Math.sqrt(2) * 5
+        const gridSize = size * 5
         return (
-          <svg width={diagonalSize} height={diagonalSize} viewBox="0 0 283 283" className={className}>
-            <g transform="rotate(45 70.75 70.75) translate(-70.75 -70.75)">
-              <path
-                d="M 41.5 70.75 L 61.5 50.75 L 221.5 50.75 L 241.5 70.75 L 221.5 90.75 L 61.5 90.75 Z"
-                fill="#6b7280"
-                stroke="#1f2937"
-                strokeWidth="2"
-              />
-              <path
-                d="M 46.5 70.75 L 63.5 55.75 L 219.5 55.75 L 236.5 70.75 L 219.5 85.75 L 63.5 85.75 Z"
-                fill="#4b5563"
-                stroke="#374151"
-                strokeWidth="1"
-              />
-              <ellipse cx="86.5" cy="70.75" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
-              <ellipse cx="116.5" cy="70.75" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
-              <rect
-                x="131.5"
-                y="65.75"
-                width="10"
-                height="10"
-                fill="#374151"
-                stroke="#1f2937"
-                strokeWidth="1.5"
-                rx="1"
-              />
-              <ellipse cx="156.5" cy="70.75" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
-              <ellipse cx="186.5" cy="70.75" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
-            </g>
+          <svg width={gridSize} height={gridSize} viewBox="0 0 200 200" className={className}>
+            <path
+              d="M 15 10 L 30 5 L 190 167 L 195 182 L 190 190 L 175 195 L 13 33 L 5 18 Z"
+              fill="#6b7280"
+              stroke="#1f2937"
+              strokeWidth="2"
+            />
+            <path
+              d="M 18 14 L 30 10 L 186 166 L 190 178 L 186 186 L 174 190 L 18 34 L 10 22 Z"
+              fill="#4b5563"
+              stroke="#374151"
+              strokeWidth="1"
+            />
+            <ellipse
+              cx="50"
+              cy="50"
+              rx="9"
+              ry="7"
+              fill="#374151"
+              stroke="#1f2937"
+              strokeWidth="1.5"
+              transform="rotate(45 50 50)"
+            />
+            <rect x="47" y="42" width="6" height="7" fill="#1f2937" rx="1" transform="rotate(45 50 50)" />
+            <ellipse
+              cx="80"
+              cy="80"
+              rx="9"
+              ry="7"
+              fill="#374151"
+              stroke="#1f2937"
+              strokeWidth="1.5"
+              transform="rotate(45 80 80)"
+            />
+            <rect x="77" y="72" width="6" height="7" fill="#1f2937" rx="1" transform="rotate(45 80 80)" />
+            <rect
+              x="95"
+              y="95"
+              width="10"
+              height="10"
+              fill="#374151"
+              stroke="#1f2937"
+              strokeWidth="1.5"
+              rx="1"
+              transform="rotate(45 100 100)"
+            />
+            <ellipse
+              cx="120"
+              cy="120"
+              rx="9"
+              ry="7"
+              fill="#374151"
+              stroke="#1f2937"
+              strokeWidth="1.5"
+              transform="rotate(45 120 120)"
+            />
+            <rect x="117" y="112" width="6" height="7" fill="#1f2937" rx="1" transform="rotate(45 120 120)" />
+            <ellipse
+              cx="150"
+              cy="150"
+              rx="9"
+              ry="7"
+              fill="#374151"
+              stroke="#1f2937"
+              strokeWidth="1.5"
+              transform="rotate(45 150 150)"
+            />
+            <rect x="147" y="142" width="6" height="7" fill="#1f2937" rx="1" transform="rotate(45 150 150)" />
+            <circle cx="32" cy="32" r="2" fill="#1f2937" opacity="0.6" />
+            <circle cx="168" cy="168" r="2" fill="#1f2937" opacity="0.6" />
           </svg>
         )
       } else {
-        // diagonal-up
-        const diagonalSize = size * Math.sqrt(2) * 5
+        const gridSize = size * 5
         return (
-          <svg width={diagonalSize} height={diagonalSize} viewBox="0 0 283 283" className={className}>
-            <g transform="rotate(-45 70.75 212.25) translate(-70.75 -212.25)">
-              <path
-                d="M 41.5 212.25 L 61.5 192.25 L 221.5 192.25 L 241.5 212.25 L 221.5 232.25 L 61.5 232.25 Z"
-                fill="#6b7280"
-                stroke="#1f2937"
-                strokeWidth="2"
-              />
-              <path
-                d="M 46.5 212.25 L 63.5 197.25 L 219.5 197.25 L 236.5 212.25 L 219.5 227.25 L 63.5 227.25 Z"
-                fill="#4b5563"
-                stroke="#374151"
-                strokeWidth="1"
-              />
-              <ellipse cx="86.5" cy="212.25" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
-              <ellipse cx="116.5" cy="212.25" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
-              <rect
-                x="131.5"
-                y="207.25"
-                width="10"
-                height="10"
-                fill="#374151"
-                stroke="#1f2937"
-                strokeWidth="1.5"
-                rx="1"
-              />
-              <ellipse cx="156.5" cy="212.25" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
-              <ellipse cx="186.5" cy="212.25" rx="10" ry="8" fill="#374151" stroke="#1f2937" strokeWidth="1.5" />
-            </g>
+          <svg width={gridSize} height={gridSize} viewBox="0 0 200 200" className={className}>
+            <path
+              d="M 15 190 L 30 195 L 190 33 L 195 18 L 190 10 L 175 5 L 13 167 L 5 182 Z"
+              fill="#6b7280"
+              stroke="#1f2937"
+              strokeWidth="2"
+            />
+            <path
+              d="M 18 186 L 30 190 L 186 34 L 190 22 L 186 14 L 174 10 L 18 166 L 10 178 Z"
+              fill="#4b5563"
+              stroke="#374151"
+              strokeWidth="1"
+            />
+            <ellipse
+              cx="50"
+              cy="150"
+              rx="9"
+              ry="7"
+              fill="#374151"
+              stroke="#1f2937"
+              strokeWidth="1.5"
+              transform="rotate(-45 50 150)"
+            />
+            <rect x="47" y="142" width="6" height="7" fill="#1f2937" rx="1" transform="rotate(-45 50 150)" />
+            <ellipse
+              cx="80"
+              cy="120"
+              rx="9"
+              ry="7"
+              fill="#374151"
+              stroke="#1f2937"
+              strokeWidth="1.5"
+              transform="rotate(-45 80 120)"
+            />
+            <rect x="77" y="112" width="6" height="7" fill="#1f2937" rx="1" transform="rotate(-45 80 120)" />
+            <rect
+              x="95"
+              y="95"
+              width="10"
+              height="10"
+              fill="#374151"
+              stroke="#1f2937"
+              strokeWidth="1.5"
+              rx="1"
+              transform="rotate(-45 100 100)"
+            />
+            <ellipse
+              cx="120"
+              cy="80"
+              rx="9"
+              ry="7"
+              fill="#374151"
+              stroke="#1f2937"
+              strokeWidth="1.5"
+              transform="rotate(-45 120 80)"
+            />
+            <rect x="117" y="72" width="6" height="7" fill="#1f2937" rx="1" transform="rotate(-45 120 80)" />
+            <ellipse
+              cx="150"
+              cy="50"
+              rx="9"
+              ry="7"
+              fill="#374151"
+              stroke="#1f2937"
+              strokeWidth="1.5"
+              transform="rotate(-45 150 50)"
+            />
+            <rect x="147" y="42" width="6" height="7" fill="#1f2937" rx="1" transform="rotate(-45 150 50)" />
+            <circle cx="32" cy="168" r="2" fill="#1f2937" opacity="0.6" />
+            <circle cx="168" cy="32" r="2" fill="#1f2937" opacity="0.6" />
           </svg>
         )
       }
