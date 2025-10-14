@@ -116,7 +116,7 @@ export function getShipCells(ship: Ship): { row: number; col: number }[] {
       case "diagonal-down":
         row += i
         col += i
-        break
+        break 
       case "diagonal-up":
         row -= i
         col += i
