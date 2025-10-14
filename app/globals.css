@@ -162,13 +162,13 @@
   }
 
   .radar-scan {
-    animation: radar-pulse 3s ease-in-out infinite;
+    animation: radar-pulse 2s ease-in-out infinite;
   }
 
   @keyframes radar-pulse {
     0%,
     100% {
-      opacity: 0.6;
+      opacity: 0.4;
     }
     50% {
       opacity: 1;
