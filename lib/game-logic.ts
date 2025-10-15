@@ -57,6 +57,7 @@ export function initializeEnemyFleet(): { ships: Ship[]; grid: Cell[][] } {
 
 export function makeEnemyMove(playerGrid: Cell[][], playerShips: Ship[]): { row: number; col: number } {
   // Simple AI: randomly target untargeted cells
+  // Opportunity to improve bot targeting, to favour cells adjacent to battleship hits
   const availableCells: { row: number; col: number }[] = []
 
   for (let row = 0; row < GRID_SIZE; row++) {
