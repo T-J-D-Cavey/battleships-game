@@ -57,7 +57,7 @@ export function initializeEnemyFleet(): { ships: Ship[]; grid: Cell[][] } {
 
 export function makeEnemyMove(playerGrid: Cell[][], playerShips: Ship[]): { row: number; col: number } {
   // Simple AI: randomly target untargeted cells
-  // Opportunity to improve bot targeting, to favour cells adjacent to battleship hits
+  // Tim 15/10/2025: Opportunity to improve bot targeting, to favour cells adjacent to battleship hits
   const availableCells: { row: number; col: number }[] = []
 
   for (let row = 0; row < GRID_SIZE; row++) {
@@ -153,8 +153,9 @@ export function checkGameEnd(
   if (enemyDestroyersDestroyed) {
     return {
       gameOver: true,
+      //Tim 15/10/25: it is possible for the same number of hits per player at point of end of game. In this scenario it counts as a player win. This should be refactored to allow for a 'Draw' state
       winner: playerHits >= enemyHits ? "player" : "enemy",
-      reason: "All enemy destroyers destroyed! Winner determined by total hits.",
+      reason: "All enemy destroyers are sunk and they're pulling back - they took more damage in the batttle",
     }
   }
 
@@ -170,7 +171,7 @@ export function checkGameEnd(
     return {
       gameOver: true,
       winner: enemyHits >= playerHits ? "enemy" : "player",
-      reason: "All your destroyers destroyed! Winner determined by total hits.",
+      reason: "All our destroyers are sunk so we're pulling back - we took more damage in the batttle",
     }
   }
 
