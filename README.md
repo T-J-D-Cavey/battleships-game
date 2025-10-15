@@ -27,4 +27,11 @@ Continue building your app on:
 1. Create and modify your project using [v0.app](https://v0.app)
 2. Deploy your chats from the v0 interface
 3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+4. Vercel deploys the latest version from this repository+
+
+
+## Bugs to fix
+
+- Enemy can position ships using a mixture of orientations but all player ship orientations are synced. This sync should be removed and the position ships button made available for all ship types. Otherwise it's possible to position a ship on the edge of the grid, and then change its orientation so it's partially off the grid
+
+- Ship placement for diaganol down is off. But ship visuals all needs redoing anyway

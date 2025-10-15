@@ -93,7 +93,7 @@ export function ShipSelector({ ships, selectedShip, onSelectShip, onRotateShip }
 
               {ship.placed && <div className="text-xs font-bold text-radar-glow">DEPLOYED</div>}
             </div>
-
+            
             {!ship.placed && selectedShip?.id === ship.id && ship.type === "battleship" && (
               <div className="flex items-center gap-2 mt-3 pt-3 border-t border-steel-light/30">
                 <Button
