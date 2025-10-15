@@ -149,13 +149,28 @@ export function checkGameEnd(
       const cells = getShipCells(ship)
       return cells.every((cell) => enemyGrid[cell.row][cell.col].state === "hit")
     })
-
+// Tim made changes to logic here on 15/10/25:
   if (enemyDestroyersDestroyed) {
-    return {
-      gameOver: true,
-      //Tim 15/10/25: it is possible for the same number of hits per player at point of end of game. In this scenario it counts as a player win. This should be refactored to allow for a 'Draw' state
-      winner: playerHits >= enemyHits ? "player" : "enemy",
-      reason: "All enemy destroyers are sunk and they're pulling back - they took more damage in the batttle",
+    if(playerHits > enemyHits) {
+      return {
+        gameOver: true,
+        winner: "player",
+        reason: "All enemy destroyers are sunk and they're pulling back - they took more damage in the batttle!",
+      }
+    }
+    if(enemyHits > playerHits) {
+      return {
+        gameOver: true,
+        winner: "enemy",
+        reason: "All enemy destroyers are sunk and they're pulling back - we took more damage in batttle!",
+      }
+    }
+    else {
+      return {
+        gameOver: true,
+        winner: "DRAW!",
+        reason: "All enemy destroyers are sunk and they're pulling back - we took equal damage in battle!",
+      }
     }
   }
 
@@ -168,10 +183,26 @@ export function checkGameEnd(
     })
 
   if (playerDestroyersDestroyed) {
-    return {
-      gameOver: true,
-      winner: enemyHits >= playerHits ? "enemy" : "player",
-      reason: "All our destroyers are sunk so we're pulling back - we took more damage in the batttle",
+    if(playerHits > enemyHits) {
+      return {
+        gameOver: true,
+        winner: "player",
+        reason: "All of our destroyers are sunk and we're pulling back - they took more damage in the batttle!",
+      }
+    }
+    if(enemyHits > playerHits) {
+      return {
+        gameOver: true,
+        winner: "enemy",
+        reason: "All of our destroyers are sunk and we're pulling back - we took more damage in batttle!",
+      }
+    }
+    else {
+      return {
+        gameOver: true,
+        winner: "DRAW!",
+        reason: "All of our destroyers are sunk and we're pulling back - we took equal damage in battle!",
+      }
     }
   }
 
