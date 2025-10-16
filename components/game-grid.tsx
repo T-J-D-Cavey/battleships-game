@@ -98,7 +98,7 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
       const shipLength = shipType === "battleship" ? 5 : 2
       const diagonalLength = 40 * Math.sqrt(2) * shipLength
       const offset = (diagonalLength - 40 * Math.sqrt(2)) / 2
-      return `translate(-${offset}px, ${offset}px)`
+      return `translate(-${offset}px, ${offset}px)`     
     }
     return undefined
   }
