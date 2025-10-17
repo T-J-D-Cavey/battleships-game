@@ -28,6 +28,7 @@ export default function PositionShipsPage() {
 
   const handleSelectShip = (ship: Ship) => {
     setSelectedShip(ship)
+    console.log(ship)
     setPreviewCells([])
   }
 
