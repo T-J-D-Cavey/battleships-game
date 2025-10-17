@@ -7,8 +7,8 @@ import { Suspense } from "react"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Battleships - Naval Warfare Command",
-  description: "Browser-based Battleships game with immersive naval warfare theme",
+  title: "Battleships - Commander of the seas",
+  description: "Browser-based Battleships game made by Tim Cavey and v0",
   generator: "v0.app",
 }
 
