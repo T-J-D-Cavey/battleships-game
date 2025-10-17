@@ -10,7 +10,7 @@ interface ShipVisualProps {
 
 export function ShipVisual({ type, orientation, size = 40, className, context = "roster" }: ShipVisualProps) {
   const shipLength = type === "battleship" ? 5 : 2
-
+// Tim 17/10/25: This is where I want to replace the SVGs with images that have dynamically adjusted translate values for orientation and perhaps height / width based on screen size (?)
   const renderShip = () => {
     if (type === "destroyer") {
       // Destroyer SVG paths

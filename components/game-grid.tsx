@@ -111,7 +111,7 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
             const shipType = getShipType(cell)
             const shouldRenderShip = showShips && cell.state === "ship" && isShipStart(rowIndex, colIndex)
             const shipOrientation = shouldRenderShip ? getShipOrientation(rowIndex, colIndex) : "horizontal"
-// Tim 17/10/25: it might be possible to refactor this so the button is wrapped in an image element, with the sort and styles changing dynamically based on values such as: ship, hit, miss etc
+// Tim 17/10/25: it might be possible to refactor this so the button is wrapped in an image element which could be a realistic sea tile, a miss tile or a hit tile
             return (
               <button
                 key={`${rowIndex}-${colIndex}`}

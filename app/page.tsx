@@ -12,9 +12,9 @@ export default function LandingPage() {
     <div className="min-h-screen ocean-texture flex items-center justify-center p-4">
       {/* Animated radar scan effect */}
       <div className="fixed inset-0 pointer-events-none opacity-10">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full border-2 border-radar-glow radar-scan" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full border-6 border-radar-glow radar-scan" />
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border-2 border-radar-glow radar-scan"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border-4 border-radar-glow radar-scan"
           style={{ animationDelay: "1s" }}
         />
         <div
