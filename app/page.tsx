@@ -32,8 +32,8 @@ export default function LandingPage() {
 
         <div className="relative z-10">
           {/* Game Title */}
-          <div className="text-center mb-12">
-            <div className="flex items-center justify-center gap-4 mb-4">
+          <div className="text-center mb-2">
+            <div className="flex items-center justify-center gap-4 mb-2">
               <Anchor className="w-12 h-12 text-radar-glow" />
               <h1 className="text-5xl md:text-7xl font-bold tracking-wider text-foreground">BATTLESHIPS</h1>
               <Anchor className="w-12 h-12 text-radar-glow" />
@@ -41,7 +41,7 @@ export default function LandingPage() {
             <p className="text-muted-foreground text-lg tracking-wide font-mono">COMMANDER OF THE SEAS</p>
           </div>
 
-          <div className="mb-8 rounded-lg overflow-hidden border-2 border-steel-light/30">
+          <div className="mb-4 rounded-lg overflow-hidden border-2 border-steel-light/30">
             <img
               src="/naval-battle-scene.jpg"
               alt="Naval Battle Scene"
@@ -50,7 +50,7 @@ export default function LandingPage() {
           </div>
 
           {!showRules ? (
-            <div className="space-y-6">
+            <div className="space-y-4">
               {/* Main Buttons */}
               <Button
                 size="lg"
@@ -101,7 +101,6 @@ export default function LandingPage() {
                     <h3 className="font-bold text-radar-glow mb-2">DEPLOYMENT</h3>
                     <p>
                       Position your ships on the grid. Ships can be placed horizontally, vertically, or diagonally.
-                      Destroyers automatically match the battleship's orientation.
                     </p>
                   </div>
 
@@ -110,7 +109,7 @@ export default function LandingPage() {
                     <p>
                       Take turns targeting enemy coordinates. Destroyers are destroyed with a single hit. Destroying the
                       enemy battleship results in victory. If all enemy destroyers are destroyed, they retreat and the
-                      winner is determined by who scored the most hits.
+                      winner is determined by who inflicted the most damage.
                     </p>
                   </div>
                 </div>

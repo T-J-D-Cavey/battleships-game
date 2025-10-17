@@ -35,3 +35,7 @@ Continue building your app on:
 - Enemy can position ships using a mixture of orientations but all player ship orientations are synced. This sync should be removed and the position ships button made available for all ship types. Otherwise it's possible to position a ship on the edge of the grid, and then change its orientation so it's partially off the grid
 
 - Ship placement for diaganol down is off. But ship visuals all needs redoing anyway
+
+- Anchor icons on homepage appear small in PROD
+
+- There is local storage logic but the game state doesn't persist across refresh. It should. Refactor needed onLoad to check if game state is stored in local storage and if it is, to use that and not default state. This state should then be wiped when 'retreat' or game end is reached.
