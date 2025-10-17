@@ -35,15 +35,15 @@ export default function PositionShipsPage() {
     const orientations: Orientation[] = ["horizontal", "diagonal-down", "vertical", "diagonal-up"]
     const currentIndex = orientations.indexOf(ship.orientation)
     const nextOrientation = orientations[(currentIndex + 1) % orientations.length]
-// Tim 17/10/25: I made a change to refactor this function to only update the selected ship when orientation is updated. Old code is commented out here:
-// Old code:
+    // Tim 17/10/25: I made a change to refactor this function to only update the selected ship when orientation is updated. Old code is commented out here:
+    // Old code:
     /*
     const updatedShips = ships.map((s) => ({
       ...s,
       orientation: nextOrientation,
     }))
      */
-//New code: 
+    //New code: 
     const updatedShips = ships.map((s) => { 
       if (s.id === ship.id) {
         return {
@@ -52,7 +52,7 @@ export default function PositionShipsPage() {
         };
       }
     return s; 
-});
+    });
 
     setShips(updatedShips)
     if (selectedShip) {
