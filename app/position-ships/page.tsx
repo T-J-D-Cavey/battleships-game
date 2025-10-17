@@ -175,14 +175,17 @@ export default function PositionShipsPage() {
               </Button>
             </div>
           </div>
-
+          {/*Tim: made change to p element below clases. The old classes are: text-sm text-muted-foreground font-mono text-center*/}
+          {/*Tim: made change to to add !allShipsPlaced condition, so when all ships are placed the div below doesn't render */}
+          { !allShipsPlaced &&
           <div className="metallic-panel p-4 mb-6 rounded">
-            <p className="text-sm text-muted-foreground font-mono text-center">
+            <p className="text-sm text-radar-glow font-mono text-center font-bold flex-1">
               {selectedShip
-                ? `DEPLOYING: ${selectedShip.type.toUpperCase()} - Click on the grid to place your ship`
+                ? `SELECT SEA LOCATION TO DEPLOY ${selectedShip.type.toUpperCase()}`
                 : "SELECT A SHIP FROM THE ROSTER TO BEGIN DEPLOYMENT"}
             </p>
           </div>
+          }
         </div>
 
         {/* Main Content */}
