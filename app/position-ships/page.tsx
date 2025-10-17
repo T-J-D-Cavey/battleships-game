@@ -22,7 +22,15 @@ export default function PositionShipsPage() {
   const router = useRouter()
   const [ships, setShips] = useState<Ship[]>(INITIAL_SHIPS)
   const [grid, setGrid] = useState(createEmptyGrid())
-  const [selectedShip, setSelectedShip] = useState<Ship | null>(null)
+  const [selectedShip, setSelectedShip] = useState<Ship | null>({
+    "id": "battleship",
+    "type": "battleship",
+    "size": 5,
+    "placed": false,
+    "startRow": -1,
+    "startCol": -1,
+    "orientation": "horizontal"
+    })
   const [previewCells, setPreviewCells] = useState<{ row: number; col: number }[]>([])
   const [rotationKey, setRotationKey] = useState(0)
 
