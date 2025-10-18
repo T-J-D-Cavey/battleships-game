@@ -98,21 +98,29 @@ export default function BattlePage() {
       }, 2000)
       return
     }
+    // Tim: completely changint the code here for the setTimeout, removing some nested timeouts and making them sequencial: 
+    setTimeout(() => {
+        setMessage("SWITCHING TO HOME SEA ZONE...")
+        console.log("FIRST SETTIMEOUT: SWITCHING TO HOME SEA ZONE...")
+    }, 2000)
 
     setTimeout(() => {
-      setView("defense")
-      setMessage("SWITCHING TO DEFENSIVE POSITION...")
-      setLastEnemyHit(null)
+        setView("defense")
+        setMessage("ENEMY FIRE INCOMING!")
+        console.log("SECOND SETTIMOUT: ENEMY FIRE INCOMING!")
+    }, 2000)
 
-      setTimeout(() => {
-        setMessage("ENEMY TARGETING...")
+    setLastEnemyHit(null)
+      
+    setTimeout(() => {
+      console.log("THIRD SETTIMOUT: ENEMY FIRE INCOMING!")
 
-        const enemyTarget = makeEnemyMove(playerGrid, playerShips)
-        const newPlayerGrid = playerGrid.map((row) => row.map((cell) => ({ ...cell })))
-        const enemyAttackResult = processAttack(enemyTarget.row, enemyTarget.col, newPlayerGrid, playerShips)
+      const enemyTarget = makeEnemyMove(playerGrid, playerShips)
+      const newPlayerGrid = playerGrid.map((row) => row.map((cell) => ({ ...cell })))
+      const enemyAttackResult = processAttack(enemyTarget.row, enemyTarget.col, newPlayerGrid, playerShips)
 
-        setLastEnemyHit(enemyTarget)
-        setPlayerGrid(newPlayerGrid)
+      setLastEnemyHit(enemyTarget)
+      setPlayerGrid(newPlayerGrid)
 
         if (enemyAttackResult.hit) {
           setEnemyHits((prev) => prev + 1)
@@ -149,7 +157,7 @@ export default function BattlePage() {
         }, 3000)
         // Tim: I change the setTimeout value to be a random number of seconds between 1-8 below:
       }, Math.random() * 7000 + 1000)
-    }, 2000)
+
   }
 
   return (
