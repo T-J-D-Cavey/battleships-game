@@ -88,18 +88,22 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
 
   const getShipTransform = (orientation: string, shipType: "battleship" | "destroyer") => {
     if (orientation === "diagonal-down") {
+        console.log('This is the diaganol down logic')
       // Offset to align first tile with starting cell
       const shipLength = shipType === "battleship" ? 5 : 2
       const diagonalLength = 40 * Math.sqrt(2) * shipLength
       const offset = (diagonalLength - 40 * Math.sqrt(2)) / 2
       return `translate(-${offset}px, -${offset}px)`
     } else if (orientation === "diagonal-up") {
+    console.log('diaganol up condition does fire')
       // Offset to align first tile with starting cell
       const shipLength = shipType === "battleship" ? 5 : 2
       const diagonalLength = 40 * Math.sqrt(2) * shipLength
       const offset = (diagonalLength - 40 * Math.sqrt(2)) / 2
-      return `translate(-${offset}px, ${offset}px)`     
+      // Tim changing this to try and debug. Original code below is:  return `translate(-${offset}px, ${offset}px)`
+      return `translate(-${offset}px, -${offset}px)`     
     }
+    console.log('did we spot the bug?')
     return undefined
   }
 

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Trophy, Skull, RotateCcw, Home, Target, Shield } from "lucide-react"
+import { Trophy, Skull, RotateCcw, Home, Crosshair, Target} from "lucide-react"
 
 export default function ResultPage() {
   const router = useRouter()
@@ -124,20 +124,20 @@ export default function ResultPage() {
           <div className="grid md:grid-cols-2 gap-6 mb-12">
             <div className="metallic-panel p-6 rounded">
               <div className="flex items-center gap-3 mb-4">
-                <Target className="w-6 h-6 text-radar-glow" />
-                <h2 className="text-lg font-bold tracking-wide">YOUR STRIKES</h2>
+                <Crosshair className="w-6 h-6 text-radar-glow" />
+                <h2 className="text-lg font-bold tracking-wide">INFLICTED DAMAGE</h2>
               </div>
               <div className="text-5xl font-bold text-radar-glow font-mono mb-2">{playerHits}</div>
-              <div className="text-sm text-muted-foreground">Successful hits on enemy vessels</div>
+              <div className="text-sm text-muted-foreground">DIRECT HITS TO ENEMY FLEET</div>
             </div>
 
             <div className="metallic-panel p-6 rounded">
               <div className="flex items-center gap-3 mb-4">
-                <Shield className="w-6 h-6 text-destructive" />
-                <h2 className="text-lg font-bold tracking-wide">ENEMY STRIKES</h2>
+                <Target className="w-6 h-6 text-destructive" />
+                <h2 className="text-lg font-bold tracking-wide">DAMAGE SUSTAINED</h2>
               </div>
               <div className="text-5xl font-bold text-destructive font-mono mb-2">{enemyHits}</div>
-              <div className="text-sm text-muted-foreground">Hits sustained by your fleet</div>
+              <div className="text-sm text-muted-foreground">DIRECT HITS TO OUR FLEET</div>
             </div>
           </div>
 
@@ -167,7 +167,7 @@ export default function ResultPage() {
           <div className="mt-8 pt-8 border-t border-steel-light text-center">
             <p className="text-xs text-muted-foreground font-mono">
               {isVictory
-                ? "OUTSTANDING TACTICAL PERFORMANCE - ENEMY NEUTRALIZED"
+                ? "OUTSTANDING TACTICAL PERFORMANCE - ENEMY NEUTRALISED"
                 : "REGROUP AND PREPARE FOR NEXT ENGAGEMENT"}
             </p>
           </div>

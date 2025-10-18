@@ -119,7 +119,7 @@ export function checkGameEnd(
   playerGrid: Cell[][],
   playerHits: number,
   enemyHits: number,
-): { gameOver: boolean; winner: "player" | "enemy" | null; reason: string } {
+  ): { gameOver: boolean; winner: "player" | "enemy" | null; reason: string } {
   // Check if enemy battleship is destroyed
   const enemyBattleship = enemyShips.find((s) => s.id === "battleship")
   if (enemyBattleship) {
@@ -149,7 +149,8 @@ export function checkGameEnd(
       const cells = getShipCells(ship)
       return cells.every((cell) => enemyGrid[cell.row][cell.col].state === "hit")
     })
-// Tim made changes to logic here on 15/10/25:
+  // Tim made changes to logic here on 15/10/25:
+  // Also I am not sure the 'reason' value is shown anywhere on the UI, not on the battle page or the results page...
   if (enemyDestroyersDestroyed) {
     if(playerHits > enemyHits) {
       return {
