@@ -98,66 +98,66 @@ export default function BattlePage() {
       }, 2000)
       return
     }
-    // Tim: completely changint the code here for the setTimeout, removing some nested timeouts and making them sequencial: 
+    // Tim: changing the code here for the setTimeout, adding to the nested timeout structure to fix the bug where one of the messages is never seen by the user: 
     setTimeout(() => {
-        setMessage("SWITCHING TO HOME SEA ZONE...")
-        console.log("FIRST SETTIMEOUT: SWITCHING TO HOME SEA ZONE...")
-    }, 2000)
+      setMessage("SWITCHING TO HOME SEA ZONE...")
+      console.log("FIRST SETTIMEOUT: SWITCHING TO HOME SEA ZONE...")
 
-    setTimeout(() => {
+
+      setTimeout(() => {
         setView("defense")
         setMessage("ENEMY FIRE INCOMING!")
         console.log("SECOND SETTIMOUT: ENEMY FIRE INCOMING!")
-    }, 2000)
 
-    setLastEnemyHit(null)
+        setLastEnemyHit(null)
       
-    setTimeout(() => {
-      console.log("THIRD SETTIMOUT: ENEMY FIRE INCOMING!")
-
-      const enemyTarget = makeEnemyMove(playerGrid, playerShips)
-      const newPlayerGrid = playerGrid.map((row) => row.map((cell) => ({ ...cell })))
-      const enemyAttackResult = processAttack(enemyTarget.row, enemyTarget.col, newPlayerGrid, playerShips)
-
-      setLastEnemyHit(enemyTarget)
-      setPlayerGrid(newPlayerGrid)
-
-        if (enemyAttackResult.hit) {
-          setEnemyHits((prev) => prev + 1)
-          setMessage(enemyAttackResult.sunk ? "YOUR VESSEL DESTROYED!" : "ENEMY HIT!")
-        } else {
-          setMessage("ENEMY MISSED")
-        }
-
-        const gameEndResult2 = checkGameEnd(
-          enemyShips,
-          playerShips,
-          newEnemyGrid,
-          newPlayerGrid,
-          playerHits + (attackResult.hit ? 1 : 0),
-          enemyHits + (enemyAttackResult.hit ? 1 : 0),
-        )
-        if (gameEndResult2.gameOver) {
-          setTimeout(() => {
-            localStorage.setItem("gameResult", gameEndResult2.winner === "player" ? "victory" : "defeat")
-            localStorage.setItem("playerHits", (playerHits + (attackResult.hit ? 1 : 0)).toString())
-            localStorage.setItem("enemyHits", (enemyHits + (enemyAttackResult.hit ? 1 : 0)).toString())
-            localStorage.setItem("endReason", gameEndResult2.reason)
-            router.push("/result")
-          }, 2000)
-          return
-        }
-
         setTimeout(() => {
-          setView("attack")
-          setMessage("SELECT TARGET COORDINATES")
-          setSelectedCell(null)
-          setLastEnemyHit(null)
-          setIsProcessing(false)
-        }, 3000)
-        // Tim: I change the setTimeout value to be a random number of seconds between 1-8 below:
-      }, Math.random() * 7000 + 1000)
+          console.log("THIRD SETTIMOUT: ENEMY FIRE INCOMING!")
 
+          const enemyTarget = makeEnemyMove(playerGrid, playerShips)
+          const newPlayerGrid = playerGrid.map((row) => row.map((cell) => ({ ...cell })))
+          const enemyAttackResult = processAttack(enemyTarget.row, enemyTarget.col, newPlayerGrid, playerShips)
+
+          setLastEnemyHit(enemyTarget)
+          setPlayerGrid(newPlayerGrid)
+
+          if (enemyAttackResult.hit) {
+            setEnemyHits((prev) => prev + 1)
+            setMessage(enemyAttackResult.sunk ? "YOUR VESSEL DESTROYED!" : "ENEMY HIT!")
+          } else {
+            setMessage("ENEMY MISSED")
+          }
+
+          const gameEndResult2 = checkGameEnd(
+            enemyShips,
+            playerShips,
+            newEnemyGrid,
+            newPlayerGrid,
+            playerHits + (attackResult.hit ? 1 : 0),
+            enemyHits + (enemyAttackResult.hit ? 1 : 0),
+          )
+          if (gameEndResult2.gameOver) {
+            setTimeout(() => {
+              localStorage.setItem("gameResult", gameEndResult2.winner === "player" ? "victory" : "defeat")
+              localStorage.setItem("playerHits", (playerHits + (attackResult.hit ? 1 : 0)).toString())
+              localStorage.setItem("enemyHits", (enemyHits + (enemyAttackResult.hit ? 1 : 0)).toString())
+              localStorage.setItem("endReason", gameEndResult2.reason)
+              router.push("/result")
+            }, 2000)
+            return
+          }
+
+          setTimeout(() => {
+            setView("attack")
+            setMessage("SELECT TARGET COORDINATES")
+            setSelectedCell(null)
+            setLastEnemyHit(null)
+            setIsProcessing(false)
+          }, 3000)
+          // Tim: I change the setTimeout value to be a random number of seconds between 1-8 below:
+        }, Math.random() * 2000 + 2000)
+      }, 2000)
+    }, 2000)
   }
 
   return (
