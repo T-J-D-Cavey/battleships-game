@@ -44,3 +44,5 @@ Continue building your app on:
 - Images aren't using Next.js Image component 
 
 - Page changes aren't using Next.js Link component
+
+- green help text is too small. In the home sea zone battle page, when i select a cell, the 'fire weapons' button appears in the same container, increasing the height and making the grid move lower.

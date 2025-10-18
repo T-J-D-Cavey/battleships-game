@@ -63,7 +63,6 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
     if (row > 0 && col < 9 && grid[row - 1][col + 1].shipId === cell.shipId) {
       return "diagonal-up"
     }
-
     return "horizontal"
   }
 
@@ -108,7 +107,7 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
     return undefined
   }
 
-
+  
   
 
   return (
@@ -119,6 +118,8 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
             const shipType = getShipType(cell)
             const shouldRenderShip = showShips && cell.state === "ship" && isShipStart(rowIndex, colIndex)
             const shipOrientation = shouldRenderShip ? getShipOrientation(rowIndex, colIndex) : "horizontal"
+            // Tim: adding code below to fix diagonal orientation bug: 
+            const transformStyle = shipOrientation === 'diagonal-up' ? 'translate(-0%, -80%)' : 'none'
 // Tim 17/10/25: it might be possible to refactor this so the button is wrapped in an image element which could be a realistic sea tile, a miss tile or a hit tile
             return (
               <button
@@ -144,8 +145,8 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
                 )}
               >
                 {shouldRenderShip && shipType && (
-
-                  <div className="absolute top-0 left-0 pointer-events-none z-10" style={{ overflow: "visible" }}>
+                    /* I have added "transform: transformStyle" below as fix for diagonal orientation bug */
+                  <div className="absolute top-0 left-0 pointer-events-none z-10" style={{ overflow: "visible", transform: transformStyle }}>
                     <ShipVisual type={shipType} orientation={shipOrientation} size={40} context="grid" />
                   </div>
                 )}
