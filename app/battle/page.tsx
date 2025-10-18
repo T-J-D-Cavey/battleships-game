@@ -25,6 +25,9 @@ export default function BattlePage() {
   const [lastEnemyHit, setLastEnemyHit] = useState<{ row: number; col: number } | null>(null)
 
   useEffect(() => {
+  // Tim: This needs to be refactored so that the state of the game is saved whenever there is a change, and the state of the game is retrieved and set as the game state whenever the browser refreshes (new request). 
+  // This stored state should be wiped when the battle ends or is cancelled
+  // A similar change is needed on the 'position ships' pages, so that accidental refreshes don't wipe player placements
     const savedShips = localStorage.getItem("playerShips")
     const savedGrid = localStorage.getItem("playerGrid")
 
@@ -62,6 +65,7 @@ export default function BattlePage() {
     if (!selectedCell || isProcessing) return
 
     setIsProcessing(true)
+    // Tim: there is a bug which means this state, with the message of 'FIRING' isn't never seen. I should implement the setTimeout here so there a second delay between selecting and the results of the selection
     setMessage("FIRING...")
 
     const newEnemyGrid = enemyGrid.map((row) => row.map((cell) => ({ ...cell })))
@@ -71,7 +75,7 @@ export default function BattlePage() {
 
     if (attackResult.hit) {
       setPlayerHits((prev) => prev + 1)
-      setMessage(attackResult.sunk ? "ENEMY VESSEL DESTROYED!" : "DIRECT HIT!")
+      setMessage(attackResult.sunk ? "ENEMY VESSEL SUNK!" : "DIRECT HIT OF ENEMY BATTLESHIP!")
     } else {
       setMessage("MISS - NO CONTACT")
     }
@@ -143,7 +147,8 @@ export default function BattlePage() {
           setLastEnemyHit(null)
           setIsProcessing(false)
         }, 3000)
-      }, 5000)
+        // Tim: I change the setTimeout value to be a random number of seconds between 1-8 below:
+      }, Math.random() * 7000 + 1000)
     }, 2000)
   }
 

@@ -33,15 +33,14 @@ Continue building your app on:
 ## Bugs / enhancements to fix
 
 
-- Ship placement for diaganol down is off. But ship visuals all needs redoing anyway
+- Ship placement for diaganol down is off. 
+
+- Ship and sea tile, sea miss tile and sea hit tile styles all needs redoing, replaced with images
 
 - Anchor icons on homepage appear small in PROD
 
-- There is local storage logic but the game state doesn't persist across refresh. It should. Refactor needed onLoad to check if game state is stored in local storage and if it is, to use that and not default state. This state should then be wiped when 'retreat' or game end is reached.
+- There is local storage logic but the game state doesn't persist across refresh. It should. Refactor needed onLoad to check if game state is stored in local storage and if it is, to use that and not default state. This state should then be wiped when 'retreat' or game end is reached. Otherwise when the browser refreshes, the game state resets!
 
 - Images aren't using Next.js Image component 
 
 - Page changes aren't using Next.js Link component
-
-- On position-ships page:
-1. When all ships are selected, the instructions read "SELECT A SHIP FROM THE ROSTER TO BEGIN DEPLOYMENT" but it should inform me to select the "BEGIN BATTLE" button

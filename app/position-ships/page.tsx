@@ -22,6 +22,7 @@ export default function PositionShipsPage() {
   const router = useRouter()
   const [ships, setShips] = useState<Ship[]>(INITIAL_SHIPS)
   const [grid, setGrid] = useState(createEmptyGrid())
+  // Tim: I changed initial state of selectedShip to be the battleship object instead of null to avoid user having to scroll down to roster 
   const [selectedShip, setSelectedShip] = useState<Ship | null>({
     "id": "battleship",
     "type": "battleship",
@@ -36,7 +37,6 @@ export default function PositionShipsPage() {
 
   const handleSelectShip = (ship: Ship) => {
     setSelectedShip(ship)
-    console.log(ship)
     setPreviewCells([])
   }
 
