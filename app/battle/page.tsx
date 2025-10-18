@@ -186,7 +186,7 @@ export default function BattlePage() {
               onClick={() => !isProcessing && setView("attack")}
               disabled={isProcessing}
             >
-              <Target className="w-5 h-5 mr-2" />
+              <Crosshair className="w-5 h-5 mr-2" />
               ENEMY SEA ZONE
             </Button>
             <Button
@@ -209,8 +209,8 @@ export default function BattlePage() {
                   onClick={handleConfirmAttack}
                   disabled={isProcessing}
                 >
-                  <Target className="w-5 h-5 mr-2" />
-                  FIRE WEAPONS
+                  <Crosshair className="w-5 h-5 mr-2" />
+                  FIRE GUNS
                 </Button>
               )}
             </div>
@@ -221,9 +221,12 @@ export default function BattlePage() {
           <div className="flex justify-center w-full lg:w-auto">
             {view === "attack" ? (
               <div className="relative">
+              { /*
                 <div className="absolute -top-12 left-0 right-0 text-center mb-4">
                   <p className="text-xs text-muted-foreground font-mono">ENEMY TERRITORY - FOG OF WAR ACTIVE</p>
                 </div>
+                */
+                }
                 <GameGrid
                   grid={enemyGrid}
                   onCellClick={handleCellClick}
@@ -234,37 +237,40 @@ export default function BattlePage() {
               </div>
             ) : (
               <div className="relative">
+              { /*
                 <div className="absolute -top-12 left-0 right-0 text-center mb-4">
                   <p className="text-xs text-muted-foreground font-mono">YOUR FLEET - DEFENSIVE POSITION</p>
                 </div>
+                */
+                }
                 <GameGrid grid={playerGrid} showShips={true} highlightCells={lastEnemyHit ? [lastEnemyHit] : []} />
               </div>
             )}
           </div>
 
           <Card className="metallic-panel p-6 w-full lg:w-80 lg:flex-shrink-0">
-            <h2 className="text-xl font-bold tracking-wide mb-6 text-foreground">COMBAT STATUS</h2>
+            <h2 className="text-xl font-bold tracking-wide mb-6 text-foreground">DAMAGE REPORT</h2>
 
             <div className="space-y-6">
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <Crosshair className="w-5 h-5 text-radar-glow" />
-                  <h3 className="font-bold text-sm tracking-wide">YOUR STRIKES</h3>
+                  <h3 className="font-bold text-sm tracking-wide">INFLICTED DAMAGE:</h3>
                 </div>
                 <div className="metallic-panel p-4 rounded">
                   <div className="text-4xl font-bold text-radar-glow font-mono">{playerHits}</div>
-                  <div className="text-xs text-muted-foreground mt-1">SUCCESSFUL HITS</div>
+                  <div className="text-xs text-muted-foreground mt-1">DIRECT HITS TO ENEMY FLEET</div>
                 </div>
               </div>
 
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <Target className="w-5 h-5 text-destructive" />
-                  <h3 className="font-bold text-sm tracking-wide">ENEMY STRIKES</h3>
+                  <h3 className="font-bold text-sm tracking-wide">DAMAGE SUSTAINED</h3>
                 </div>
                 <div className="metallic-panel p-4 rounded">
                   <div className="text-4xl font-bold text-destructive font-mono">{enemyHits}</div>
-                  <div className="text-xs text-muted-foreground mt-1">HITS SUSTAINED</div>
+                  <div className="text-xs text-muted-foreground mt-1">DIRECT HITS TO OUR FLEET</div>
                 </div>
               </div>
             </div>

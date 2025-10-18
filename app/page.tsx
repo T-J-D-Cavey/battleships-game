@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Anchor, Target, Shield } from "lucide-react"
+import { Anchor, Crosshair, Shield } from "lucide-react"
 
 export default function LandingPage() {
   const [showRules, setShowRules] = useState(false)
@@ -57,7 +57,7 @@ export default function LandingPage() {
                 className="w-full h-16 text-xl font-bold tracking-wider metallic-panel glow-border hover:brightness-125 transition-all"
                 onClick={() => (window.location.href = "/position-ships")}
               >
-                <Target className="w-6 h-6 mr-3" />
+                <Crosshair className="w-6 h-6 mr-3" />
                 DEPLOY FLEET
               </Button>
 
