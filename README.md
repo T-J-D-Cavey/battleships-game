@@ -46,3 +46,5 @@ Continue building your app on:
 - Page changes aren't using Next.js Link component
 
 - green help text is too small. In the home sea zone battle page, when i select a cell, the 'fire weapons' button appears in the same container, increasing the height and making the grid move lower.
+
+- Reset deployment button on position-ships page has a bug with hover border on wide desktop screens

@@ -238,7 +238,7 @@ export default function BattlePage() {
         <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center lg:justify-center max-w-[min(100%,1200px)] mx-auto">
           <div className="flex justify-center w-full lg:w-auto">
             {view === "attack" ? (
-              <div className="relative">
+              <div className={view === "attack" ? "relative border-2 border-radar-glow" : "relative border-2 border-radar-glow"}>
               { /*
                 <div className="absolute -top-12 left-0 right-0 text-center mb-4">
                   <p className="text-xs text-muted-foreground font-mono">ENEMY TERRITORY - FOG OF WAR ACTIVE</p>
