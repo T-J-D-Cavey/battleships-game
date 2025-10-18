@@ -166,7 +166,7 @@ export default function BattlePage() {
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <Button
                 variant="outline"
-                className="metallic-panel border-steel-light hover:border-radar-glow bg-transparent w-full md:w-auto"
+                className="metallic-panel hover:border-2 border-steel-light hover:border-rader-glow bg-transparent w-full md:w-auto"
                 onClick={() => router.push("/")}
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
@@ -238,7 +238,7 @@ export default function BattlePage() {
         <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center lg:justify-center max-w-[min(100%,1200px)] mx-auto">
           <div className="flex justify-center w-full lg:w-auto">
             {view === "attack" ? (
-              <div className={view === "attack" ? "relative border-2 border-radar-glow" : "relative border-2 border-radar-glow"}>
+              <div className="relative border-2 border-radar-glow glow-border">
               { /*
                 <div className="absolute -top-12 left-0 right-0 text-center mb-4">
                   <p className="text-xs text-muted-foreground font-mono">ENEMY TERRITORY - FOG OF WAR ACTIVE</p>
@@ -254,7 +254,7 @@ export default function BattlePage() {
                 />
               </div>
             ) : (
-              <div className="relative">
+              <div className="relative border-2 border-destructive destructive-border-glow">
               { /*
                 <div className="absolute -top-12 left-0 right-0 text-center mb-4">
                   <p className="text-xs text-muted-foreground font-mono">YOUR FLEET - DEFENSIVE POSITION</p>

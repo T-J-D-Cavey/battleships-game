@@ -70,6 +70,7 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
     return shipId === "battleship" ? 5 : 2
   }
   // Tim: This function is not being called anywhere. Could be a clue for orientaion bug:
+  /*
   const getShipPositionClasses = (orientation: string) => {
     console.log('getShipPositionClasses is being called')
     switch (orientation) {
@@ -107,7 +108,7 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
     return undefined
   }
 
-  
+  */
   
 
   return (
