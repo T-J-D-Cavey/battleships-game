@@ -38,6 +38,7 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
   }
 
   const getShipOrientation = (
+    console.log('getShipOrientation is called!')
     row: number,
     col: number,
   ): "horizontal" | "vertical" | "diagonal-down" | "diagonal-up" => {
@@ -70,8 +71,9 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
   const getShipSize = (shipId: string): number => {
     return shipId === "battleship" ? 5 : 2
   }
-
+  // Tim: This function is not being called anywhere. Could be a clue for orientaion bug:
   const getShipPositionClasses = (orientation: string) => {
+    console.log('getShipPositionClasses is being called')
     switch (orientation) {
       case "horizontal":
         return "justify-start items-center"
@@ -86,6 +88,7 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
     }
   }
 
+  // Tim: this function is not being called anywhere. Could be a clue for orientaion bug:
   const getShipTransform = (orientation: string, shipType: "battleship" | "destroyer") => {
     if (orientation === "diagonal-down") {
         console.log('This is the diaganol down logic')
@@ -100,12 +103,14 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
       const shipLength = shipType === "battleship" ? 5 : 2
       const diagonalLength = 40 * Math.sqrt(2) * shipLength
       const offset = (diagonalLength - 40 * Math.sqrt(2)) / 2
-      // Tim changing this to try and debug. Original code below is:  return `translate(-${offset}px, ${offset}px)`
-      return `translate(-${offset}px, -${offset}px)`     
+      return `translate(-${offset}px, ${offset}px)`     
     }
     console.log('did we spot the bug?')
     return undefined
   }
+
+
+  
 
   return (
     <div className={cn("inline-block metallic-panel p-4 rounded", className)}>
@@ -140,6 +145,7 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
                 )}
               >
                 {shouldRenderShip && shipType && (
+
                   <div className="absolute top-0 left-0 pointer-events-none z-10" style={{ overflow: "visible" }}>
                     <ShipVisual type={shipType} orientation={shipOrientation} size={40} context="grid" />
                   </div>
