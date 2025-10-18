@@ -20,7 +20,7 @@ export default function BattlePage() {
   const [playerHits, setPlayerHits] = useState(0)
   const [enemyHits, setEnemyHits] = useState(0)
   const [selectedCell, setSelectedCell] = useState<{ row: number; col: number } | null>(null)
-  const [message, setMessage] = useState("SELECT TARGET COORDINATES")
+  const [message, setMessage] = useState("ENEMY IN RANGE. SELECT SEA LOCATION FOR US TO FIRE ON")
   const [isProcessing, setIsProcessing] = useState(false)
   const [lastEnemyHit, setLastEnemyHit] = useState<{ row: number; col: number } | null>(null)
 
@@ -77,7 +77,7 @@ export default function BattlePage() {
       setPlayerHits((prev) => prev + 1)
       setMessage(attackResult.sunk ? "ENEMY VESSEL SUNK!" : "DIRECT HIT OF ENEMY BATTLESHIP!")
     } else {
-      setMessage("MISS - NO CONTACT")
+      setMessage("MISS - NO CONTACT!")
     }
 
     const gameEndResult = checkGameEnd(
@@ -100,20 +100,14 @@ export default function BattlePage() {
     }
     // Tim: changing the code here for the setTimeout, adding to the nested timeout structure to fix the bug where one of the messages is never seen by the user: 
     setTimeout(() => {
-      setMessage("SWITCHING TO HOME SEA ZONE...")
-      console.log("FIRST SETTIMEOUT: SWITCHING TO HOME SEA ZONE...")
-
+      setMessage("SWITCHING VIEW TO HOME SEA ZONE...")
 
       setTimeout(() => {
         setView("defense")
         setMessage("ENEMY FIRE INCOMING!")
-        console.log("SECOND SETTIMOUT: ENEMY FIRE INCOMING!")
-
         setLastEnemyHit(null)
       
         setTimeout(() => {
-          console.log("THIRD SETTIMOUT: ENEMY FIRE INCOMING!")
-
           const enemyTarget = makeEnemyMove(playerGrid, playerShips)
           const newPlayerGrid = playerGrid.map((row) => row.map((cell) => ({ ...cell })))
           const enemyAttackResult = processAttack(enemyTarget.row, enemyTarget.col, newPlayerGrid, playerShips)
@@ -123,7 +117,7 @@ export default function BattlePage() {
 
           if (enemyAttackResult.hit) {
             setEnemyHits((prev) => prev + 1)
-            setMessage(enemyAttackResult.sunk ? "YOUR VESSEL DESTROYED!" : "ENEMY HIT!")
+            setMessage(enemyAttackResult.sunk ? "A VESSEL OF OURS HAS BEEN DESTROYED!" : "ENEMY SCORED A DIRECT HIT OF OUR BATTLESHIP!")
           } else {
             setMessage("ENEMY MISSED")
           }
@@ -148,12 +142,16 @@ export default function BattlePage() {
           }
 
           setTimeout(() => {
-            setView("attack")
-            setMessage("SELECT TARGET COORDINATES")
-            setSelectedCell(null)
-            setLastEnemyHit(null)
-            setIsProcessing(false)
-          }, 3000)
+            setMessage("SWITCHING VIEW TO ENEMY SEA ZONE...")
+
+            setTimeout(() => {
+              setView("attack")
+              setMessage("SELECT SEA LOCATION FOR US TO FIRE ON")
+              setSelectedCell(null)
+              setLastEnemyHit(null)
+              setIsProcessing(false)   
+            }, 2000)
+          }, 2000)
           // Tim: I change the setTimeout value to be a random number of seconds between 1-8 below:
         }, Math.random() * 2000 + 2000)
       }, 2000)
@@ -175,7 +173,7 @@ export default function BattlePage() {
                 RETREAT
               </Button>
 
-              <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-wider text-foreground text-center flex-1 md:mr-32">
+              <h1 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-wider text-foreground text-center flex-1 md:mr-32">
                 NAVAL COMBAT
               </h1>
             </div>
