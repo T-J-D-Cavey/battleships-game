@@ -38,7 +38,6 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
   }
 
   const getShipOrientation = (
-    console.log('getShipOrientation is called!')
     row: number,
     col: number,
   ): "horizontal" | "vertical" | "diagonal-down" | "diagonal-up" => {
