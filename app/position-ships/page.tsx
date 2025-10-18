@@ -188,7 +188,7 @@ export default function PositionShipsPage() {
           {/*Tim: made change to to add !allShipsPlaced condition, so when all ships are placed the div below doesn't render */}
           { !allShipsPlaced &&
           <div className="metallic-panel p-4 mb-6 rounded">
-            <p className="text-sm text-radar-glow font-mono text-center font-bold flex-1">
+            <p className="text-base text-radar-glow font-mono text-center font-bold flex-1">
               {selectedShip
                 ? `SELECT SEA LOCATION TO DEPLOY ${selectedShip.type.toUpperCase()}`
                 : "SELECT A SHIP FROM THE ROSTER TO BEGIN DEPLOYMENT"}
