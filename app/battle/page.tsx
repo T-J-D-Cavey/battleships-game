@@ -224,7 +224,7 @@ export default function BattlePage() {
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <p className="text-base text-radar-glow font-mono text-center font-bold flex-1">{message}</p>
                 <Button
-                  className={view === "attack" && selectedCell ? "w-full sm:w-auto metallic-panel glow-border hover:brightness-125 font-bold" : "invisible w-full sm:w-auto metallic-panel glow-border hover:brightness-125 font-bold"
+                  className={view === "attack" && selectedCell ? "w-full sm:w-auto metallic-panel glow-border hover:brightness-125 font-bold" : "invisible w-full sm:w-auto metallic-panel glow-border hover:brightness-125 font-bold"}
                   onClick={handleConfirmAttack}
                   disabled={isProcessing}
                 >
