@@ -209,3 +209,8 @@ export function checkGameEnd(
 
   return { gameOver: false, winner: null, reason: "" }
 }
+
+export const getShipImagePath = (type: string): string => {
+    const filePath = type === "battleship" ? "/battleship.png" : "/destroyer.png";
+    return filePath; 
+};
