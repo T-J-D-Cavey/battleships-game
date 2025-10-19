@@ -25,9 +25,6 @@ export default function BattlePage() {
   const [lastEnemyHit, setLastEnemyHit] = useState<{ row: number; col: number } | null>(null)
 
   useEffect(() => {
-  // Tim: This needs to be refactored so that the state of the game is saved whenever there is a change, and the state of the game is retrieved and set as the game state whenever the browser refreshes (new request). 
-  // This stored state should be wiped when the battle ends or is cancelled
-  // A similar change is needed on the 'position ships' pages, so that accidental refreshes don't wipe player placements
     const savedShips = localStorage.getItem("playerShips")
     const savedGrid = localStorage.getItem("playerGrid")
 
@@ -199,41 +196,10 @@ export default function BattlePage() {
               HOME SEA ZONE
             </Button>
           </div>
-          {
-          /*
-          Tim: Trying an alternative approach for displaying the button using a tailwind Invisible class. Old code:
-          <div className="metallic-panel p-4 mb-6 rounded">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <p className="text-base text-radar-glow font-mono text-center font-bold flex-1">{message}</p>
-              {view === "attack" && selectedCell && (
-                <Button
-                  className="w-full sm:w-auto metallic-panel glow-border hover:brightness-125 font-bold"
-                  onClick={handleConfirmAttack}
-                  disabled={isProcessing}
-                >
-                  <Crosshair className="w-5 h-5 mr-2" />
-                  FIRE GUNS
-                </Button>
-              )}
-            </div>
-          </div>
-          */
-          }
 
           <div className="metallic-panel p-4 mb-6 rounded">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <p className="text-base text-radar-glow font-mono text-center font-bold flex-1">{message}</p>
-              { /* Tim: commenting this fire button out as not needed. 
-                <Button
-                  className={view === "attack" && selectedCell ? "w-full sm:w-auto metallic-panel glow-border hover:brightness-125 font-bold" : "invisible w-full sm:w-auto metallic-panel glow-border hover:brightness-125 font-bold"}
-                  onClick={handleConfirmAttack}
-                  disabled={isProcessing}
-                >
-                  <Crosshair className="w-5 h-5 mr-2" />
-                  FIRE GUNS
-                </Button>
-                */
-                }
             </div>
           </div>
         </div>
@@ -242,12 +208,6 @@ export default function BattlePage() {
           <div className="flex justify-center w-full lg:w-auto">
             {view === "attack" ? (
               <div className="relative border-2 border-radar-glow glow-border">
-              { /*
-                <div className="absolute -top-12 left-0 right-0 text-center mb-4">
-                  <p className="text-xs text-muted-foreground font-mono">ENEMY TERRITORY - FOG OF WAR ACTIVE</p>
-                </div>
-                */
-                }
                 <GameGrid
                   grid={enemyGrid}
                   onCellClick={handleCellClick}
@@ -258,12 +218,6 @@ export default function BattlePage() {
               </div>
             ) : (
               <div className="relative border-2 border-destructive destructive-border-glow">
-              { /*
-                <div className="absolute -top-12 left-0 right-0 text-center mb-4">
-                  <p className="text-xs text-muted-foreground font-mono">YOUR FLEET - DEFENSIVE POSITION</p>
-                </div>
-                */
-                }
                 <GameGrid grid={playerGrid} showShips={true} highlightCells={lastEnemyHit ? [lastEnemyHit] : []} />
               </div>
             )}
