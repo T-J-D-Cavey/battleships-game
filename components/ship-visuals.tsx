@@ -5,56 +5,41 @@ import Image from "next/image"
 interface ShipVisualProps {
   type: "battleship" | "destroyer"
   orientation: Orientation
+  size?: number // Added optional size prop for fleet roster scaling
 }
 
-export function ShipVisual({ type, orientation }: ShipVisualProps) {
+export function ShipVisual({ type, orientation, size }: ShipVisualProps) {
   const shipLength = type === "battleship" ? 5 : 2
-  const tileSize = 40
+  const tileSize = size || 40 // Use custom size if provided, otherwise default to 40px
 
-  let width = tileSize
-  let height = tileSize * shipLength
-  let rotation = 0
+  // Horizontal: ship image is naturally horizontal (long and thin)
+  // Vertical: rotate the horizontal image 90 degrees
+  const isVertical = orientation === "vertical"
 
-  if (orientation === "horizontal") {
-    width = tileSize * shipLength
-    height = tileSize
-    rotation = 0
-  } else if (orientation === "vertical") {
-    width = tileSize
-    height = tileSize * shipLength
-    rotation = 0
-  } else if (orientation === "diagonal-down") {
-    // Diagonal ships need square container for rotation
-    width = tileSize * shipLength
-    height = tileSize * shipLength
-    rotation = 45
-  } else if (orientation === "diagonal-up") {
-    width = tileSize * shipLength
-    height = tileSize * shipLength
-    rotation = -45
-  }
+  // Base dimensions (for horizontal orientation)
+  const baseWidth = tileSize * shipLength
+  const baseHeight = tileSize
 
-  const src = getShipImagePath(type)
+  const src = getShipImagePath(type, false)
 
   return (
     <div
       style={{
-        width: `${width}px`,
-        height: `${height}px`,
-        transform: `rotate(${rotation}deg)`,
-        transformOrigin: "center center",
+        width: isVertical ? `${baseHeight}px` : `${baseWidth}px`,
+        height: isVertical ? `${baseWidth}px` : `${baseHeight}px`,
+        position: "relative",
       }}
       className="flex items-center justify-center"
     >
       <Image
         src={src || "/placeholder.svg"}
         alt={`${type} ship`}
-        width={orientation.includes("diagonal") ? tileSize * shipLength : width}
-        height={orientation.includes("diagonal") ? tileSize : height}
-        className="object-contain"
+        width={baseWidth}
+        height={baseHeight}
+        className={`object-contain ${isVertical ? "rotate-90" : ""}`}
         style={{
-          width: orientation.includes("diagonal") ? `${tileSize * shipLength}px` : "100%",
-          height: orientation.includes("diagonal") ? `${tileSize}px` : "100%",
+          maxWidth: "none",
+          maxHeight: "none",
         }}
       />
     </div>

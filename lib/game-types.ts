@@ -1,5 +1,5 @@
 export type ShipType = "battleship" | "destroyer"
-export type Orientation = "horizontal" | "vertical" | "diagonal-down" | "diagonal-up"
+export type Orientation = "horizontal" | "vertical"
 export type CellState = "empty" | "ship" | "hit" | "miss"
 
 export interface Ship {
@@ -106,21 +106,11 @@ export function getShipCells(ship: Ship): { row: number; col: number }[] {
     let row = ship.startRow
     let col = ship.startCol
 
-    switch (ship.orientation) {
-      case "horizontal":
-        col += i
-        break
-      case "vertical":
-        row += i
-        break
-      case "diagonal-down":
-        row += i
-        col += i
-        break 
-      case "diagonal-up":
-        row -= i
-        col += i
-        break
+    if (ship.orientation === "horizontal") {
+      col += i
+    } else {
+      // vertical
+      row += i
     }
 
     cells.push({ row, col })
@@ -175,64 +165,17 @@ export function adjustPlacementToFit(ship: Ship, row: number, col: number): { ro
   let adjustedRow = row
   let adjustedCol = col
 
-  // Calculate the cells the ship would occupy
-  const cells: { row: number; col: number }[] = []
-  for (let i = 0; i < ship.size; i++) {
-    let cellRow = row
-    let cellCol = col
-
-    switch (ship.orientation) {
-      case "horizontal":
-        cellCol += i
-        break
-      case "vertical":
-        cellRow += i
-        break
-      case "diagonal-down":
-        cellRow += i
-        cellCol += i
-        break
-      case "diagonal-up":
-        cellRow -= i
-        cellCol += i
-        break
+  if (ship.orientation === "horizontal") {
+    // If ship extends past right edge, shift left
+    if (col + ship.size > GRID_SIZE) {
+      adjustedCol = GRID_SIZE - ship.size
     }
-
-    cells.push({ row: cellRow, col: cellCol })
-  }
-
-  // Check if any cells are out of bounds and adjust
-  switch (ship.orientation) {
-    case "horizontal":
-      // If ship extends past right edge, shift left
-      if (col + ship.size > GRID_SIZE) {
-        adjustedCol = GRID_SIZE - ship.size
-      }
-      break
-    case "vertical":
-      // If ship extends past bottom edge, shift up
-      if (row + ship.size > GRID_SIZE) {
-        adjustedRow = GRID_SIZE - ship.size
-      }
-      break
-    case "diagonal-down":
-      // If ship extends past right or bottom edge, shift up-left
-      if (col + ship.size > GRID_SIZE) {
-        adjustedCol = GRID_SIZE - ship.size
-      }
-      if (row + ship.size > GRID_SIZE) {
-        adjustedRow = GRID_SIZE - ship.size
-      }
-      break
-    case "diagonal-up":
-      // If ship extends past top or right edge, shift down or left
-      if (col + ship.size > GRID_SIZE) {
-        adjustedCol = GRID_SIZE - ship.size
-      }
-      if (row - ship.size + 1 < 0) {
-        adjustedRow = ship.size - 1
-      }
-      break
+  } else {
+    // vertical
+    // If ship extends past bottom edge, shift up
+    if (row + ship.size > GRID_SIZE) {
+      adjustedRow = GRID_SIZE - ship.size
+    }
   }
 
   return { row: adjustedRow, col: adjustedCol }

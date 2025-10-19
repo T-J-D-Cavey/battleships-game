@@ -3,7 +3,7 @@
 import type { Ship, Orientation } from "@/lib/game-types"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { RotateCw, Anchor, ArrowUpRight } from "lucide-react"
+import { RotateCw, Anchor } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ShipVisual } from "@/components/ship-visuals"
 
@@ -16,47 +16,13 @@ interface ShipSelectorProps {
 
 export function ShipSelector({ ships, selectedShip, onSelectShip, onRotateShip }: ShipSelectorProps) {
   const getOrientationLabel = (orientation: Orientation) => {
-    switch (orientation) {
-      case "horizontal":
-        return "HORIZONTAL"
-      case "vertical":
-        return "VERTICAL"
-      case "diagonal-down":
-        // 45deg rotation points down-right
-        return (
-          <span className="flex items-center gap-1">
-            DIAGONAL <ArrowUpRight className="w-3 h-3 text-radar-glow -scale-x-100" />
-          </span>
-        )
-      case "diagonal-up":
-        // -45deg rotation points up-right
-        return (
-          <span className="flex items-center gap-1">
-            DIAGONAL <ArrowUpRight className="w-3 h-3 text-radar-glow" />
-          </span>
-        )
-    }
-  }
-
-  const getShipVisualHeight = (ship: Ship) => {
-    if (ship.type === "destroyer") {
-      if (ship.orientation === "vertical") return "120px"
-      if (ship.orientation === "diagonal-down" || ship.orientation === "diagonal-up") return "100px"
-      return "60px"
-    }
-    // Battleship
-    if (ship.orientation === "vertical") return "280px"
-    if (ship.orientation === "diagonal-down" || ship.orientation === "diagonal-up") return "240px"
-    return "80px"
+    return orientation === "horizontal" ? "HORIZONTAL" : "VERTICAL"
   }
 
   const renderShipVisual = (ship: Ship) => {
     return (
-      <div
-        className="flex items-center justify-center overflow-hidden"
-        style={{ minHeight: getShipVisualHeight(ship), width: "100%" }}
-      >
-        <ShipVisual type={ship.type} orientation={ship.orientation} size={24} />
+      <div className="flex items-center justify-center py-4">
+        <ShipVisual type={ship.type} orientation={ship.orientation} size={30} />
       </div>
     )
   }
@@ -93,7 +59,7 @@ export function ShipSelector({ ships, selectedShip, onSelectShip, onRotateShip }
 
               {ship.placed && <div className="text-xs font-bold text-radar-glow">DEPLOYED</div>}
             </div>
-            {/*Tim 16/10/25: Removed this condition to allow rotation on all ship types: && ship.type === "battleship" */}
+
             {!ship.placed && selectedShip?.id === ship.id && (
               <div className="flex items-center gap-2 mt-3 pt-3 border-t border-steel-light/30">
                 <Button

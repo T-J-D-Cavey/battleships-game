@@ -100,7 +100,7 @@ export default function LandingPage() {
                   <div className="metallic-panel p-4 rounded">
                     <h3 className="font-bold text-radar-glow mb-2">DEPLOYMENT</h3>
                     <p>
-                      Position your ships on the grid. Ships can be placed horizontally, vertically, or diagonally.
+                      Position your ships on the grid. Ships can be placed horizontally or vertically.
                     </p>
                   </div>
 

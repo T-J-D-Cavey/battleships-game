@@ -22,16 +22,16 @@ export default function PositionShipsPage() {
   const router = useRouter()
   const [ships, setShips] = useState<Ship[]>(INITIAL_SHIPS)
   const [grid, setGrid] = useState(createEmptyGrid())
-  // Tim: I changed initial state of selectedShip to be the battleship object instead of null to avoid user having to scroll down to roster 
+  // Tim: I changed initial state of selectedShip to be the battleship object instead of null to avoid user having to scroll down to roster
   const [selectedShip, setSelectedShip] = useState<Ship | null>({
-    "id": "battleship",
-    "type": "battleship",
-    "size": 5,
-    "placed": false,
-    "startRow": -1,
-    "startCol": -1,
-    "orientation": "horizontal"
-    })
+    id: "battleship",
+    type: "battleship",
+    size: 5,
+    placed: false,
+    startRow: -1,
+    startCol: -1,
+    orientation: "horizontal",
+  })
   const [previewCells, setPreviewCells] = useState<{ row: number; col: number }[]>([])
   const [rotationKey, setRotationKey] = useState(0)
 
@@ -41,27 +41,17 @@ export default function PositionShipsPage() {
   }
 
   const handleRotateShip = (ship: Ship) => {
-    const orientations: Orientation[] = ["horizontal", "diagonal-down", "vertical", "diagonal-up"]
-    const currentIndex = orientations.indexOf(ship.orientation)
-    const nextOrientation = orientations[(currentIndex + 1) % orientations.length]
-    // Tim 17/10/25: I made a change to refactor this function to only update the selected ship when orientation is updated. Old code is commented out here:
-    // Old code:
-    /*
-    const updatedShips = ships.map((s) => ({
-      ...s,
-      orientation: nextOrientation,
-    }))
-     */
-    //New code: 
-    const updatedShips = ships.map((s) => { 
+    const nextOrientation: Orientation = ship.orientation === "horizontal" ? "vertical" : "horizontal"
+
+    const updatedShips = ships.map((s) => {
       if (s.id === ship.id) {
         return {
           ...s,
           orientation: nextOrientation,
-        };
+        }
       }
-    return s; 
-    });
+      return s
+    })
 
     setShips(updatedShips)
     if (selectedShip) {
@@ -186,15 +176,15 @@ export default function PositionShipsPage() {
           </div>
           {/*Tim: made change to p element below clases. The old classes are: text-sm text-muted-foreground font-mono text-center*/}
           {/*Tim: made change to to add !allShipsPlaced condition, so when all ships are placed the div below doesn't render */}
-          { !allShipsPlaced &&
-          <div className="metallic-panel p-4 mb-6 rounded">
-            <p className="text-base text-radar-glow font-mono text-center font-bold flex-1">
-              {selectedShip
-                ? `SELECT SEA LOCATION TO DEPLOY ${selectedShip.type.toUpperCase()}`
-                : "SELECT A SHIP FROM THE ROSTER TO BEGIN DEPLOYMENT"}
-            </p>
-          </div>
-          }
+          {!allShipsPlaced && (
+            <div className="metallic-panel p-4 mb-6 rounded">
+              <p className="text-base text-radar-glow font-mono text-center font-bold flex-1">
+                {selectedShip
+                  ? `SELECT SEA LOCATION TO DEPLOY ${selectedShip.type.toUpperCase()}`
+                  : "SELECT A SHIP FROM THE ROSTER TO BEGIN DEPLOYMENT"}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Main Content */}

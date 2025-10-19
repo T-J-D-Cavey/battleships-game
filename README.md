@@ -33,9 +33,7 @@ Continue building your app on:
 ## Bugs / enhancements to fix
 
 
-- Band-aid fix put in place for ship placement for diaganol down positioning bug
-
-- Ship and sea tile, sea miss tile and sea hit tile styles all needs redoing, replaced with images
+- When the player's battleship suffers a direct hit the ship visuals is lost
 
 - Anchor icons on homepage appear small in PROD
 
@@ -46,3 +44,5 @@ Continue building your app on:
 - Page changes aren't using Next.js Link component
 
 - Reset deployment button on position-ships page has a bug with hover border on wide desktop screens
+
+- Enhancement: make it more dificult, the bot gets two random grid shots per round

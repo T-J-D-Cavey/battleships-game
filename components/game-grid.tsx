@@ -30,18 +30,11 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
     if (col > 0 && grid[row][col - 1].shipId === cell.shipId) return false
     // Check if there's a ship cell above (vertical)
     if (row > 0 && grid[row - 1][col].shipId === cell.shipId) return false
-    // Check if there's a ship cell diagonally up-left (diagonal-down)
-    if (row > 0 && col > 0 && grid[row - 1][col - 1].shipId === cell.shipId) return false
-    // Check if there's a ship cell diagonally down-left (diagonal-up)
-    if (row < 9 && col > 0 && grid[row + 1][col - 1].shipId === cell.shipId) return false
 
     return true
   }
 
-  const getShipOrientation = (
-    row: number,
-    col: number,
-  ): "horizontal" | "vertical" | "diagonal-down" | "diagonal-up" => {
+  const getShipOrientation = (row: number, col: number): "horizontal" | "vertical" => {
     const cell = grid[row][col]
     if (!cell.shipId) return "horizontal"
 
@@ -55,15 +48,6 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
       return "vertical"
     }
 
-    // Check diagonal-down (down-right)
-    if (row < 9 && col < 9 && grid[row + 1][col + 1].shipId === cell.shipId) {
-      return "diagonal-down"
-    }
-
-    // Check diagonal-up (up-right)
-    if (row > 0 && col < 9 && grid[row - 1][col + 1].shipId === cell.shipId) {
-      return "diagonal-up"
-    }
     return "horizontal"
   }
 
@@ -83,43 +67,45 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
 
   return (
     <div className={cn("inline-block metallic-panel p-4 rounded", className)}>
-      {grid.map((row, rowIndex) => (
-        <div key={rowIndex} className="flex">
-          {row.map((cell, colIndex) => {
-            const shipType = getShipType(cell)
-            const shouldRenderShip = showShips && cell.state === "ship" && isShipStart(rowIndex, colIndex)
-            const shipOrientation = shouldRenderShip ? getShipOrientation(rowIndex, colIndex) : "horizontal"
+      <div className="relative">
+        {grid.map((row, rowIndex) => (
+          <div key={rowIndex} className="flex">
+            {row.map((cell, colIndex) => {
+              const shipType = getShipType(cell)
+              const shouldRenderShip = showShips && cell.state === "ship" && isShipStart(rowIndex, colIndex)
+              const shipOrientation = shouldRenderShip ? getShipOrientation(rowIndex, colIndex) : "horizontal"
 
-            return (
-              <button
-                key={`${rowIndex}-${colIndex}`}
-                data-row={rowIndex}
-                data-col={colIndex}
-                onClick={() => onCellClick?.(rowIndex, colIndex)}
-                className={cn(
-                  "w-10 h-10 border transition-all relative group overflow-visible",
-                  "border-steel-light/30",
-                  cell.state === "empty" && "hover:brightness-110",
-                  cell.state === "ship" && !showShips && "hover:brightness-110",
-                  isHighlighted(rowIndex, colIndex) && "ring-2 ring-radar-glow bg-radar-glow/20",
-                  onCellClick && "cursor-pointer",
-                )}
-              >
-                <img
-                  src={getTileImage(cell.state, shipType) || "/placeholder.svg"}
-                  alt={`${cell.state} tile`}
-                  className="w-full h-full object-cover absolute inset-0"
-                />
-                {shouldRenderShip && shipType && (
-                  <div className="absolute top-0 left-0 pointer-events-none z-10" style={{ overflow: "visible" }}>
-                    <ShipVisual type={shipType} orientation={shipOrientation} />
-                  </div>
-                )}
-              </button>
-            )
-          })}
-        </div>
-      ))}
+              return (
+                <button
+                  key={`${rowIndex}-${colIndex}`}
+                  data-row={rowIndex}
+                  data-col={colIndex}
+                  onClick={() => onCellClick?.(rowIndex, colIndex)}
+                  className={cn(
+                    "w-10 h-10 border transition-all relative group overflow-visible",
+                    "border-steel-light/30",
+                    cell.state === "empty" && "hover:brightness-110",
+                    cell.state === "ship" && !showShips && "hover:brightness-110",
+                    isHighlighted(rowIndex, colIndex) && "ring-2 ring-radar-glow bg-radar-glow/20",
+                    onCellClick && "cursor-pointer",
+                  )}
+                >
+                  <img
+                    src={getTileImage(cell.state, shipType) || "/placeholder.svg"}
+                    alt={`${cell.state} tile`}
+                    className="w-full h-full object-cover absolute inset-0"
+                  />
+                  {shouldRenderShip && shipType && (
+                    <div className="absolute top-0 left-0 pointer-events-none z-10">
+                      <ShipVisual type={shipType} orientation={shipOrientation} />
+                    </div>
+                  )}
+                </button>
+              )
+            })}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
