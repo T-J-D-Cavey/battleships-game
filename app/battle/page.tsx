@@ -222,7 +222,8 @@ export default function BattlePage() {
 
           <div className="metallic-panel p-4 mb-6 rounded">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <p className="text-base text-radar-glow font-mono text-center font-bold flex-1 line-clamp-2">{message}</p>
+              <p className="text-base text-radar-glow font-mono text-center font-bold flex-1">{message}</p>
+              { /* Tim: commenting this fire button out as not needed. 
                 <Button
                   className={view === "attack" && selectedCell ? "w-full sm:w-auto metallic-panel glow-border hover:brightness-125 font-bold" : "invisible w-full sm:w-auto metallic-panel glow-border hover:brightness-125 font-bold"}
                   onClick={handleConfirmAttack}
@@ -231,6 +232,8 @@ export default function BattlePage() {
                   <Crosshair className="w-5 h-5 mr-2" />
                   FIRE GUNS
                 </Button>
+                */
+                }
             </div>
           </div>
         </div>
