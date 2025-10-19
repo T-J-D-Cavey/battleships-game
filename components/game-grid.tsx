@@ -136,10 +136,8 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
                   return "/sea-tile.png"; 
                 case "hit":
                   if(shipType === "battleship") {
-                    console.log("battleship condition reached")
                     return "/sea-tile-battleship-hit.png"; 
                     } else {
-                      console.log("destroyer condition reached")
                       return "/sea-tile-hit.png";
                       }
                 case "miss":
