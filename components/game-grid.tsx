@@ -24,7 +24,7 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
 
   const isShipStart = (row: number, col: number): boolean => {
     const cell = grid[row][col]
-    if (!cell.shipId || cell.state !== "ship") return false
+    if (!cell.shipId || cell.state !== "ship" && cell.state !== "hit") return false
 
     // Check if there's a ship cell to the left (horizontal)
     if (col > 0 && grid[row][col - 1].shipId === cell.shipId) return false
