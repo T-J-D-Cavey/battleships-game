@@ -159,13 +159,14 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
                   onCellClick && "cursor-pointer",
                 )}
               >
-                <img src={getTileImage(cell.state)} alt="sea" className="w-full h-full object-cover absolute inset-0" />
+                <img src={getTileImage(cell.state)} alt={`${cell.state} tile`} className="w-full h-full object-cover absolute inset-0" />
                 {shouldRenderShip && shipType && (
                     /* I have added "transform: transformStyle" below as fix for diagonal orientation bug */
                   <div className="absolute top-0 left-0 pointer-events-none z-10" style={{ overflow: "visible", transform: transformStyle }}>
                     <ShipVisual type={shipType} orientation={shipOrientation} size={40} context="grid" />
                   </div>
                 )}
+                { /* Tim: removed this, which has a miss or destroyer / battleship hit on top of the sea tile
 
                 {cell.state === "hit" && shipType === "battleship" && (
                   <div className="absolute inset-0 flex items-center justify-center z-20">
@@ -186,6 +187,7 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
                     <div className="w-4 h-4 rounded-full border-2 border-white opacity-60" />
                   </div>
                 )}
+                */ }
               </button>
             )
           })}
