@@ -100,6 +100,17 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
                       <ShipVisual type={shipType} orientation={shipOrientation} />
                     </div>
                   )}
+                  {
+                  // Tim: added code:
+                    shipType === "battleship" && cell.state === "hit" && (
+                      <img
+                        src="/sea-tile-battleship-hit.png"
+                        alt={`${cell.state} tile`}
+                        className="w-full h-full object-cover absolute inset-0 z-30"
+                      />
+                    )
+                    //Tim: end of added code. 
+                  }
                 </button>
               )
             })}
