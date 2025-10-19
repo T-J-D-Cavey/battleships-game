@@ -7,6 +7,7 @@ import { ShipVisual } from "@/components/ship-visuals"
 import seaTile from "@/public/sea-tile.png"
 import seaTileMiss from "@/public/sea-tile-miss.png"
 import seaTileHit from "@/public/sea-tile-hit.png"
+import seaTileBattleshipHit from "@/public/sea-tile-battleship-hit.png"
 
 interface GameGridProps {
   grid: Cell[][]
@@ -128,18 +129,24 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
             if(shipOrientation === 'diagonal-up') {
               transformStyle = shipType === 'destroyer' ? 'translate(-0%, -55%)' : 'translate(-0%, -80%)'
             }
-            const getTileImage = (state) => {
+            const getTileImage = (state, shipType) => {
               switch (state) {
                 case "empty":
                 case "ship": 
                   return "/sea-tile.png"; 
                 case "hit":
-                  return "/sea-tile-hit.png";
+                  if(shipType === "battleship") {
+                    console.log("battleship condition reached")
+                    return "/sea-tile-battleship-hit.png"; 
+                    } else {
+                      console.log("destroyer condition reached")
+                      return "/sea-tile-hit.png";
+                      }
                 case "miss":
                   return "/sea-tile-miss.png";
                 default:
                   return "/sea-tile.png";
-    }
+                }
 }
             return (
               <button
@@ -159,11 +166,11 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
                   onCellClick && "cursor-pointer",
                 )}
               >
-                <img src={getTileImage(cell.state)} alt={`${cell.state} tile`} className="w-full h-full object-cover absolute inset-0" />
+                <img src={getTileImage(cell.state, shipType)} alt={`${cell.state} tile`} className="w-full h-full object-cover absolute inset-0" />
                 {shouldRenderShip && shipType && (
                     /* I have added "transform: transformStyle" below as fix for diagonal orientation bug */
                   <div className="absolute top-0 left-0 pointer-events-none z-10" style={{ overflow: "visible", transform: transformStyle }}>
-                    <ShipVisual type={shipType} orientation={shipOrientation} size={40} context="grid" />
+                        <ShipVisual type={shipType} orientation={shipOrientation} size={40} context="grid" />
                   </div>
                 )}
                 { /* Tim: removed this, which has a miss or destroyer / battleship hit on top of the sea tile
