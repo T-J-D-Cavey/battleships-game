@@ -4,7 +4,8 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Trophy, Skull, RotateCcw, Home, Crosshair, Target} from "lucide-react"
+import { Trophy, Skull, RotateCcw, Home, Crosshair, Target } from "lucide-react"
+import { loadGameState, clearGameState } from "@/lib/storage"
 
 export default function ResultPage() {
   const router = useRouter()
@@ -13,35 +14,25 @@ export default function ResultPage() {
   const [enemyHits, setEnemyHits] = useState(0)
 
   useEffect(() => {
-    const gameResult = localStorage.getItem("gameResult") as "victory" | "defeat" | null
-    const pHits = Number.parseInt(localStorage.getItem("playerHits") || "0")
-    const eHits = Number.parseInt(localStorage.getItem("enemyHits") || "0")
+    const savedState = loadGameState()
 
-    if (!gameResult) {
+    if (!savedState.gameResult) {
       router.push("/")
       return
     }
 
-    setResult(gameResult)
-    setPlayerHits(pHits)
-    setEnemyHits(eHits)
+    setResult(savedState.gameResult)
+    setPlayerHits(savedState.playerHits || 0)
+    setEnemyHits(savedState.enemyHits || 0)
   }, [router])
 
   const handlePlayAgain = () => {
-    localStorage.removeItem("gameResult")
-    localStorage.removeItem("playerHits")
-    localStorage.removeItem("enemyHits")
-    localStorage.removeItem("playerShips")
-    localStorage.removeItem("playerGrid")
+    clearGameState()
     router.push("/position-ships")
   }
 
   const handleMainMenu = () => {
-    localStorage.removeItem("gameResult")
-    localStorage.removeItem("playerHits")
-    localStorage.removeItem("enemyHits")
-    localStorage.removeItem("playerShips")
-    localStorage.removeItem("playerGrid")
+    clearGameState()
     router.push("/")
   }
 

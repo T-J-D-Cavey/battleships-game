@@ -9,6 +9,7 @@ import { Target, Shield, ArrowLeft, Crosshair } from "lucide-react"
 import type { Ship, Cell } from "@/lib/game-types"
 import { createEmptyGrid } from "@/lib/game-types"
 import { initializeEnemyFleet, makeEnemyMove, processAttack, checkGameEnd } from "@/lib/game-logic"
+import { saveGameState, loadGameState, clearGameState } from "@/lib/storage"
 
 export default function BattlePage() {
   const router = useRouter()
@@ -25,21 +26,48 @@ export default function BattlePage() {
   const [lastEnemyHit, setLastEnemyHit] = useState<{ row: number; col: number } | null>(null)
 
   useEffect(() => {
-    const savedShips = localStorage.getItem("playerShips")
-    const savedGrid = localStorage.getItem("playerGrid")
+    const savedState = loadGameState()
 
-    if (!savedShips || !savedGrid) {
+    if (!savedState.playerShips || !savedState.playerGrid) {
       router.push("/position-ships")
       return
     }
 
-    setPlayerShips(JSON.parse(savedShips))
-    setPlayerGrid(JSON.parse(savedGrid))
+    setPlayerShips(savedState.playerShips)
+    setPlayerGrid(savedState.playerGrid)
 
-    const { ships, grid } = initializeEnemyFleet()
-    setEnemyShips(ships)
-    setEnemyGrid(grid)
+    // Restore battle state if available
+    if (savedState.enemyShips && savedState.enemyGrid) {
+      setEnemyShips(savedState.enemyShips)
+      setEnemyGrid(savedState.enemyGrid)
+      setPlayerHits(savedState.playerHits || 0)
+      setEnemyHits(savedState.enemyHits || 0)
+      setView(savedState.currentView || "attack")
+      setSelectedCell(savedState.selectedCell || null)
+      setLastEnemyHit(savedState.lastEnemyHit || null)
+    } else {
+      // Initialize new battle
+      const { ships, grid } = initializeEnemyFleet()
+      setEnemyShips(ships)
+      setEnemyGrid(grid)
+    }
   }, [router])
+
+  useEffect(() => {
+    if (enemyShips.length > 0) {
+      saveGameState({
+        playerShips,
+        playerGrid,
+        enemyShips,
+        enemyGrid,
+        playerHits,
+        enemyHits,
+        currentView: view,
+        selectedCell,
+        lastEnemyHit,
+      })
+    }
+  }, [playerShips, playerGrid, enemyShips, enemyGrid, playerHits, enemyHits, view, selectedCell, lastEnemyHit])
 
   const handleCellClick = (row: number, col: number) => {
     if (view !== "attack" || isProcessing) return
@@ -62,7 +90,6 @@ export default function BattlePage() {
     if (!selectedCell || isProcessing) return
 
     setIsProcessing(true)
-    // Tim: there is a bug which means this state, with the message of 'FIRING' isn't never seen. I should implement the setTimeout here so there a second delay between selecting and the results of the selection
     setMessage("FIRING...")
 
     const newEnemyGrid = enemyGrid.map((row) => row.map((cell) => ({ ...cell })))
@@ -87,15 +114,17 @@ export default function BattlePage() {
     )
     if (gameEndResult.gameOver) {
       setTimeout(() => {
-        localStorage.setItem("gameResult", gameEndResult.winner === "player" ? "victory" : "defeat")
-        localStorage.setItem("playerHits", (playerHits + (attackResult.hit ? 1 : 0)).toString())
-        localStorage.setItem("enemyHits", enemyHits.toString())
-        localStorage.setItem("endReason", gameEndResult.reason)
+        saveGameState({
+          gameResult: gameEndResult.winner === "player" ? "victory" : "defeat",
+          playerHits: playerHits + (attackResult.hit ? 1 : 0),
+          enemyHits: enemyHits,
+          endReason: gameEndResult.reason,
+        })
         router.push("/result")
       }, 2000)
       return
     }
-    // Tim: changing the code here for the setTimeout, adding to the nested timeout structure to fix the bug where one of the messages is never seen by the user: 
+
     setTimeout(() => {
       setMessage("SWITCHING VIEW TO HOME SEA ZONE...")
 
@@ -103,56 +132,69 @@ export default function BattlePage() {
         setView("defense")
         setMessage("ENEMY FIRE INCOMING!")
         setLastEnemyHit(null)
-      
-        setTimeout(() => {
-          const enemyTarget = makeEnemyMove(playerGrid, playerShips)
-          const newPlayerGrid = playerGrid.map((row) => row.map((cell) => ({ ...cell })))
-          const enemyAttackResult = processAttack(enemyTarget.row, enemyTarget.col, newPlayerGrid, playerShips)
 
-          setLastEnemyHit(enemyTarget)
-          setPlayerGrid(newPlayerGrid)
+        setTimeout(
+          () => {
+            const enemyTarget = makeEnemyMove(playerGrid, playerShips)
+            const newPlayerGrid = playerGrid.map((row) => row.map((cell) => ({ ...cell })))
+            const enemyAttackResult = processAttack(enemyTarget.row, enemyTarget.col, newPlayerGrid, playerShips)
 
-          if (enemyAttackResult.hit) {
-            setEnemyHits((prev) => prev + 1)
-            setMessage(enemyAttackResult.sunk ? "A VESSEL OF OURS HAS BEEN DESTROYED!" : "ENEMY SCORED A DIRECT HIT OF OUR BATTLESHIP!")
-          } else {
-            setMessage("ENEMY MISSED")
-          }
+            setLastEnemyHit(enemyTarget)
+            setPlayerGrid(newPlayerGrid)
 
-          const gameEndResult2 = checkGameEnd(
-            enemyShips,
-            playerShips,
-            newEnemyGrid,
-            newPlayerGrid,
-            playerHits + (attackResult.hit ? 1 : 0),
-            enemyHits + (enemyAttackResult.hit ? 1 : 0),
-          )
-          if (gameEndResult2.gameOver) {
+            if (enemyAttackResult.hit) {
+              setEnemyHits((prev) => prev + 1)
+              setMessage(
+                enemyAttackResult.sunk
+                  ? "A VESSEL OF OURS HAS BEEN DESTROYED!"
+                  : "ENEMY SCORED A DIRECT HIT OF OUR BATTLESHIP!",
+              )
+            } else {
+              setMessage("ENEMY MISSED")
+            }
+
+            const gameEndResult2 = checkGameEnd(
+              enemyShips,
+              playerShips,
+              newEnemyGrid,
+              newPlayerGrid,
+              playerHits + (attackResult.hit ? 1 : 0),
+              enemyHits + (enemyAttackResult.hit ? 1 : 0),
+            )
+            if (gameEndResult2.gameOver) {
+              setTimeout(() => {
+                saveGameState({
+                  gameResult: gameEndResult2.winner === "player" ? "victory" : "defeat",
+                  playerHits: playerHits + (attackResult.hit ? 1 : 0),
+                  enemyHits: enemyHits + (enemyAttackResult.hit ? 1 : 0),
+                  endReason: gameEndResult2.reason,
+                })
+                router.push("/result")
+              }, 2000)
+              return
+            }
+
             setTimeout(() => {
-              localStorage.setItem("gameResult", gameEndResult2.winner === "player" ? "victory" : "defeat")
-              localStorage.setItem("playerHits", (playerHits + (attackResult.hit ? 1 : 0)).toString())
-              localStorage.setItem("enemyHits", (enemyHits + (enemyAttackResult.hit ? 1 : 0)).toString())
-              localStorage.setItem("endReason", gameEndResult2.reason)
-              router.push("/result")
-            }, 2000)
-            return
-          }
+              setMessage("SWITCHING VIEW TO ENEMY SEA ZONE...")
 
-          setTimeout(() => {
-            setMessage("SWITCHING VIEW TO ENEMY SEA ZONE...")
-
-            setTimeout(() => {
-              setView("attack")
-              setMessage("SELECT SEA LOCATION FOR US TO FIRE ON")
-              setSelectedCell(null)
-              setLastEnemyHit(null)
-              setIsProcessing(false)   
+              setTimeout(() => {
+                setView("attack")
+                setMessage("SELECT SEA LOCATION FOR US TO FIRE ON")
+                setSelectedCell(null)
+                setLastEnemyHit(null)
+                setIsProcessing(false)
+              }, 2000)
             }, 2000)
-          }, 2000)
-          // Tim: I change the setTimeout value to be a random number of seconds between 1-8 below:
-        }, Math.random() * 2000 + 2000)
+          },
+          Math.random() * 2000 + 2000,
+        )
       }, 2000)
     }, 2000)
+  }
+
+  const handleRetreat = () => {
+    clearGameState()
+    router.push("/")
   }
 
   return (
@@ -164,7 +206,7 @@ export default function BattlePage() {
               <Button
                 variant="outline"
                 className="metallic-panel hover:border-2 border-steel-light hover:border-rader-glow bg-transparent w-full md:w-auto"
-                onClick={() => router.push("/")}
+                onClick={handleRetreat}
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 RETREAT

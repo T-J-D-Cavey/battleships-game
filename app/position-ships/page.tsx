@@ -16,13 +16,13 @@ import {
   removeShipFromGrid,
   adjustPlacementToFit,
 } from "@/lib/game-types"
+import { saveGameState, loadGameState, clearGameState } from "@/lib/storage"
 import { ArrowLeft, Play } from "lucide-react"
 
 export default function PositionShipsPage() {
   const router = useRouter()
   const [ships, setShips] = useState<Ship[]>(INITIAL_SHIPS)
   const [grid, setGrid] = useState(createEmptyGrid())
-  // Tim: I changed initial state of selectedShip to be the battleship object instead of null to avoid user having to scroll down to roster
   const [selectedShip, setSelectedShip] = useState<Ship | null>({
     id: "battleship",
     type: "battleship",
@@ -34,6 +34,30 @@ export default function PositionShipsPage() {
   })
   const [previewCells, setPreviewCells] = useState<{ row: number; col: number }[]>([])
   const [rotationKey, setRotationKey] = useState(0)
+
+  useEffect(() => {
+    const savedState = loadGameState()
+    if (savedState.playerShips && savedState.playerGrid) {
+      setShips(savedState.playerShips)
+      setGrid(savedState.playerGrid)
+
+      if (savedState.selectedShipId) {
+        const ship = savedState.playerShips.find((s) => s.id === savedState.selectedShipId)
+        setSelectedShip(ship || null)
+      } else {
+        const nextUndeployedShip = savedState.playerShips.find((s) => !s.placed)
+        setSelectedShip(nextUndeployedShip || null)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    saveGameState({
+      playerShips: ships,
+      playerGrid: grid,
+      selectedShipId: selectedShip?.id,
+    })
+  }, [ships, grid, selectedShip])
 
   const handleSelectShip = (ship: Ship) => {
     setSelectedShip(ship)
@@ -82,7 +106,6 @@ export default function PositionShipsPage() {
     const previewShip = { ...selectedShip, startRow: adjusted.row, startCol: adjusted.col }
     const cells = getShipCells(previewShip)
 
-    // Check if placement is valid (not overlapping with other ships)
     const valid = isValidPlacement(previewShip, grid, ships)
 
     if (valid) {
@@ -132,11 +155,12 @@ export default function PositionShipsPage() {
 
   const handleStartBattle = () => {
     if (!allShipsPlaced) return
-
-    localStorage.setItem("playerShips", JSON.stringify(ships))
-    localStorage.setItem("playerGrid", JSON.stringify(grid))
-
     router.push("/battle")
+  }
+
+  const handleAbortMission = () => {
+    clearGameState()
+    router.push("/")
   }
 
   return (
@@ -148,7 +172,7 @@ export default function PositionShipsPage() {
               <Button
                 variant="outline"
                 className="metallic-panel border-steel-light hover:border-radar-glow bg-transparent w-full md:w-auto h-16 md:h-auto"
-                onClick={() => router.push("/")}
+                onClick={handleAbortMission}
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 <span className="text-xs md:text-sm">
@@ -174,8 +198,6 @@ export default function PositionShipsPage() {
               </Button>
             </div>
           </div>
-          {/*Tim: made change to p element below clases. The old classes are: text-sm text-muted-foreground font-mono text-center*/}
-          {/*Tim: made change to to add !allShipsPlaced condition, so when all ships are placed the div below doesn't render */}
           {!allShipsPlaced && (
             <div className="metallic-panel p-4 mb-6 rounded">
               <p className="text-base text-radar-glow font-mono text-center font-bold flex-1">
@@ -187,9 +209,7 @@ export default function PositionShipsPage() {
           )}
         </div>
 
-        {/* Main Content */}
         <div className="flex flex-col lg:flex-row gap-6 items-start lg:justify-center max-w-[min(100%,1200px)] mx-auto">
-          {/* Grid */}
           <div className="flex justify-center w-full lg:w-auto">
             <div
               key={rotationKey}
@@ -210,7 +230,6 @@ export default function PositionShipsPage() {
             </div>
           </div>
 
-          {/* Ship Selector */}
           <div className="w-full lg:w-80 lg:flex-shrink-0">
             <ShipSelector
               ships={ships}
@@ -228,6 +247,7 @@ export default function PositionShipsPage() {
                 setSelectedShip(null)
                 setPreviewCells([])
                 setRotationKey(0)
+                clearGameState()
               }}
             >
               RESET DEPLOYMENT
