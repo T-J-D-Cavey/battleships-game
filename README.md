@@ -33,7 +33,7 @@ Continue building your app on:
 ## Bugs / enhancements to fix
 
 
-- Ship placement for diaganol down is off. 
+- Band-aid fix put in place for ship placement for diaganol down positioning bug
 
 - Ship and sea tile, sea miss tile and sea hit tile styles all needs redoing, replaced with images
 
@@ -44,7 +44,5 @@ Continue building your app on:
 - Images aren't using Next.js Image component 
 
 - Page changes aren't using Next.js Link component
-
-- green help text is too small. In the home sea zone battle page, when i select a cell, the 'fire weapons' button appears in the same container, increasing the height and making the grid move lower.
 
 - Reset deployment button on position-ships page has a bug with hover border on wide desktop screens
