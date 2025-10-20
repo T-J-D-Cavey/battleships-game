@@ -32,8 +32,6 @@ Continue building your app on:
 
 ## Bugs / enhancements to fix
 
-- Anchor icons on homepage appear small in PROD
-
 - Images aren't using Next.js Image component 
 
 - Page changes aren't using Next.js Link component

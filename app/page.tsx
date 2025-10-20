@@ -39,9 +39,9 @@ export default function LandingPage() {
           {/* Game Title */}
           <div className="text-center mb-2">
             <div className="flex items-center justify-center gap-4 mb-2">
-              <Anchor className="w-12 h-12 text-radar-glow" />
+              <Anchor className="w-8 h-8 text-radar-glow flex-shrink-0" />
               <h1 className="text-4xl md:text-7xl font-bold tracking-wider text-foreground">BATTLESHIPS</h1>
-              <Anchor className="w-12 h-12 text-radar-glow" />
+              <Anchor className="w-8 h-8 text-radar-glow flex-shrink-0" />
             </div>
             <p className="text-muted-foreground text-lg tracking-wide font-mono">COMMANDER OF THE SEAS</p>
           </div>
