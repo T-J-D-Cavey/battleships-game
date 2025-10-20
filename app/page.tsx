@@ -1,12 +1,17 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { clearGameState } from "@/lib/storage"
 import { Anchor, Crosshair, Shield } from "lucide-react"
 
 export default function LandingPage() {
   const [showRules, setShowRules] = useState(false)
+
+  useEffect(() => {
+    clearGameState()
+  }, [])
 
   return (
     <div className="min-h-screen ocean-texture flex items-center justify-center p-4">
