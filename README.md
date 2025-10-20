@@ -32,9 +32,6 @@ Continue building your app on:
 
 ## Bugs / enhancements to fix
 
-
-- When the player's battleship suffers a direct hit the ship visuals is lost (I did implement a fix for this but I was able to replicate the bug twice in prod, one time the ship disappeared after one hit, the other time after two hits - one to watch out for)
-
 - Anchor icons on homepage appear small in PROD
 
 - Images aren't using Next.js Image component 
