@@ -9,7 +9,11 @@ import "./globals.css"
 export const metadata: Metadata = {
   title: "Battleships - Commander of the seas",
   description: "Browser-based Battleships game made by Tim Cavey and v0",
-  generator: "v0.app",
+  icons: {
+    icon: '/favicon.png',        
+    shortcut: '/favicon.png'
+  },
+    generator: 'v0.app'
 }
 
 export default function RootLayout({
