@@ -72,7 +72,12 @@ export function GameGrid({ grid, onCellClick, showShips = true, highlightCells =
           <div key={rowIndex} className="flex">
             {row.map((cell, colIndex) => {
               const shipType = getShipType(cell)
-              const shouldRenderShip = showShips && cell.state === "ship" && isShipStart(rowIndex, colIndex)
+              let shouldRenderShip
+              if(shipType === "battleship") {
+                shouldRenderShip = showShips && (cell.state === "ship" || cell.state === "hit") && isShipStart(rowIndex, colIndex)
+              } else {
+                shouldRenderShip = showShips && cell.state === "ship" && isShipStart(rowIndex, colIndex)
+              }
               const shipOrientation = shouldRenderShip ? getShipOrientation(rowIndex, colIndex) : "horizontal"
 
               return (

@@ -82,7 +82,7 @@ export default function BattlePage() {
       handleConfirmAttack()
     } else {
       setSelectedCell({ row, col })
-      setMessage("CONFIRM TARGET OR SELECT NEW COORDINATES")
+      setMessage("SELECT SEA LOCATION AGAIN TO INITIATE ATTACK OR CHOOSE NEW COORDINATES")
     }
   }
 
