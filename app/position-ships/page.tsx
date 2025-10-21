@@ -200,7 +200,7 @@ export default function PositionShipsPage() {
           </div>
           {!allShipsPlaced && (
             <div className="metallic-panel mb-6 rounded">
-              <div className="flex items-center justify-center h-12 min-h-fit">
+              <div className="flex items-center justify-center h-18 min-h-fit">
                 <p className="text-base text-radar-glow font-mono text-center font-bold">
                   {selectedShip
                     ? `SELECT SEA TILE TO PLACE ${selectedShip.type.toUpperCase()} OR SELECT ANOTHER SHIP FROM FLEET`

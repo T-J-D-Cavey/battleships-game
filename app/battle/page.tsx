@@ -239,9 +239,9 @@ export default function BattlePage() {
             </Button>
           </div>
 
-          <div className="metallic-panel p-4 mb-6 rounded">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <p className="text-base text-radar-glow font-mono text-center font-bold flex-1">{message}</p>
+          <div className="metallic-panel mb-6 rounded">
+            <div className="flex items-center justify-center h-18 min-h-fit">
+              <p className="text-base text-radar-glow font-mono text-center font-bold">{message}</p>
             </div>
           </div>
         </div>
