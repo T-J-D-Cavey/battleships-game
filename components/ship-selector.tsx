@@ -31,7 +31,7 @@ export function ShipSelector({ ships, selectedShip, onSelectShip, onRotateShip }
     <Card className="metallic-panel p-6">
       <h2 className="text-xl font-bold tracking-wide mb-4 text-foreground flex items-center gap-2">
         <Anchor className="w-5 h-5 text-radar-glow" />
-        FLEET ROSTER
+        OUR FLEET
       </h2>
 
       <div className="space-y-3">
@@ -57,7 +57,7 @@ export function ShipSelector({ ships, selectedShip, onSelectShip, onRotateShip }
                 </div>
               </div>
 
-              {ship.placed && <div className="text-xs font-bold text-radar-glow">DEPLOYED</div>}
+              {ship.placed && <div className="text-xs font-bold text-radar-glow">IN POSITION</div>}
             </div>
 
             {!ship.placed && selectedShip?.id === ship.id && (

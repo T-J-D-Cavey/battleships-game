@@ -199,12 +199,14 @@ export default function PositionShipsPage() {
             </div>
           </div>
           {!allShipsPlaced && (
-            <div className="metallic-panel p-4 mb-6 rounded">
-              <p className="text-base text-radar-glow font-mono text-center font-bold flex-1">
-                {selectedShip
-                  ? `SELECT SEA LOCATION TO DEPLOY ${selectedShip.type.toUpperCase()}`
-                  : "SELECT A SHIP FROM THE ROSTER TO BEGIN DEPLOYMENT"}
-              </p>
+            <div className="metallic-panel mb-6 rounded">
+              <div className="flex items-center justify-center h-12 min-h-fit">
+                <p className="text-base text-radar-glow font-mono text-center font-bold">
+                  {selectedShip
+                    ? `SELECT SEA TILE TO PLACE ${selectedShip.type.toUpperCase()} OR SELECT ANOTHER SHIP FROM FLEET`
+                    : "SELECT A SHIP THAT YOU WANT TO PLACE"}
+                </p>
+              </div>
             </div>
           )}
         </div>

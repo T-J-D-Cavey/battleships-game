@@ -21,7 +21,7 @@ export default function BattlePage() {
   const [playerHits, setPlayerHits] = useState(0)
   const [enemyHits, setEnemyHits] = useState(0)
   const [selectedCell, setSelectedCell] = useState<{ row: number; col: number } | null>(null)
-  const [message, setMessage] = useState("ENEMY IN RANGE. SELECT SEA LOCATION FOR US TO FIRE ON")
+  const [message, setMessage] = useState("ENEMY IN RANGE. SELECT SEA TILE FOR US TO TARGET")
   const [isProcessing, setIsProcessing] = useState(false)
   const [lastEnemyHit, setLastEnemyHit] = useState<{ row: number; col: number } | null>(null)
 
@@ -82,7 +82,7 @@ export default function BattlePage() {
       handleConfirmAttack()
     } else {
       setSelectedCell({ row, col })
-      setMessage("SELECT SEA LOCATION AGAIN TO INITIATE ATTACK OR CHOOSE NEW COORDINATES")
+      setMessage("SELECT SEA TILE AGAIN TO INITIATE ATTACK OR CHOOSE NEW TARGET")
     }
   }
 
@@ -179,7 +179,7 @@ export default function BattlePage() {
 
               setTimeout(() => {
                 setView("attack")
-                setMessage("SELECT SEA LOCATION FOR US TO FIRE ON")
+                setMessage("SELECT SEA TILE FOR US TO TARGET")
                 setSelectedCell(null)
                 setLastEnemyHit(null)
                 setIsProcessing(false)
